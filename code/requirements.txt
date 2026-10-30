@@ -1,0 +1,7 @@
+psycopg[binary]>=3.2
+tkcalendar>=1.6
+pillow>=10
+bcrypt>=4             # đọc mật khẩu bcrypt của CSDL tạo từ báo cáo
+sounddevice>=0.4    # ghi âm micro cho tìm kiếm bằng giọng nói (thiếu thì chọn file)
+pytest>=8
+flask>=3.0             # ứng dụng web cho khách hàng (abc_fashion_web)

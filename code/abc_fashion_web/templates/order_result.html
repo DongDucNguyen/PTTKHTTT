@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf, status %}
+{% block title %}Kết quả đặt hàng{% endblock %}
+{% block content %}
+{% set charges = order.payments|selectattr('kind.value', 'equalto', 'charge')|list %}
+{% set last = charges[-1] if charges else none %}
+<div class="card">
+  <h1>Đơn hàng {{ order.order_no }}</h1>
+  <p>Trạng thái: {{ status(order.status) }} · Giao tới: {{ order|ship_text }}</p>
+  {% if last is none %}<p class="bad">Chưa thanh toán.</p>
+  {% elif last.method.value == 'cod' %}<p class="ok">Thanh toán khi nhận hàng (COD).</p>
+  {% elif last.status.value == 'succeeded' %}<p class="ok">Thanh toán thành công, mã giao dịch {{ last.transaction_ref }}.</p>
+  {% else %}<p class="bad">Thanh toán thất bại. Hàng vẫn được giữ cho bạn — hãy thanh toán lại hoặc chọn phương thức khác.</p>{% endif %}
+  <p class="price-big">Tổng cộng: {{ order.grand_total|money }}</p>
+
+  {% if pending %}
+    <form method="post" action="{{ url_for('shop.order_pay', order_id=order.id) }}" class="row">
+      {{ csrf() }}
+      <div class="field"><label for="method">Thanh toán lại bằng</label>
+        <select id="method" name="method">
+          {% for t, m in retry %}
+            <option value="{{ t.value }}:{{ m.id if m else '' }}">{{ t|label }}{% if m %} {{ m.provider }} {{ m.masked_number }}{% endif %}</option>
+          {% endfor %}
+        </select></div>
+      <div class="field"><button class="primary">Thanh toán lại</button></div>
+    </form>
+  {% endif %}
+</div>
+<div class="card table-wrap">
+  <h2>Kiện hàng</h2>
+  <table>
+    <tr><th>Kiện</th><th>Kho</th><th>Hàng</th><th>Trạng thái</th></tr>
+    {% for s in order.shipments %}
+      <tr><td>#{{ s.id }}</td><td>{{ s.location_name }}</td>
+        <td>{% for r in s.records %}{{ r.sku }}×{{ r.quantity }}{{ ', ' if not loop.last }}{% endfor %}</td><td>{{ status(s.status) }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+<div class="actions">
+  <a class="btn btn-primary" href="{{ url_for('shop.order_detail', order_id=order.id) }}">Xem đơn hàng</a>
+  <a class="btn" href="{{ url_for('shop.catalogue') }}">Tiếp tục mua sắm</a>
+</div>
+{% endblock %}

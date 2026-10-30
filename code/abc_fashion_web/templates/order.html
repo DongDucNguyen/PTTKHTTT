@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf, status %}
+{% block title %}Đơn {{ order.order_no }}{% endblock %}
+{% block content %}
+<div class="row" style="justify-content:space-between;align-items:center">
+  <h1>Đơn {{ order.order_no }}</h1>
+  <div>{{ status(order.status) }}</div>
+</div>
+<p class="muted">Đặt lúc {{ order.placed_at|dt }} · {{ order.delivery_service|label }}{% if order.note %} · Ghi chú: {{ order.note }}{% endif %}</p>
+<p>Giao tới: {{ order|ship_text }}</p>
+{% if order.return_request %}
+  <p class="violet">Yêu cầu trả {{ order.return_request.return_no }}: {{ order.return_request.status|label }}</p>
+{% elif order.cancel_reason %}
+  <p class="violet">{{ 'Lý do huỷ' if order.status.value == 'cancelled' else 'Đã gửi yêu cầu huỷ' }}: {{ order.cancel_reason }}</p>
+{% endif %}
+
+<div class="card table-wrap">
+  <h2>Sản phẩm</h2>
+  <table>
+    <tr><th>Sản phẩm</th><th>Màu / cỡ</th><th class="num">SL</th><th class="num">Đơn giá</th><th class="num">Giảm</th><th class="num">Thành tiền</th><th>Đánh giá</th></tr>
+    {% for i in order.items %}
+      <tr><td><a href="{{ url_for('shop.style_detail', style_id=i.styleId) }}">{{ i.style_name }}</a><div class="muted small">{{ i.sku }}</div></td>
+        <td>{{ i.colour }}/{{ i.size_label }}</td><td class="num">{{ i.quantity }}</td><td class="num">{{ i.unit_price|money }}</td>
+        <td class="num">{{ i.discount|money }}</td><td class="num">{{ i.line_total|money }}</td>
+        <td>{% if i.reviewed %}<span class="ok">✓ Đã đánh giá</span>
+            {% elif i.can_review %}<a href="{{ url_for('shop.review', order_id=order.id, item_id=i.id) }}">Viết đánh giá</a>{% endif %}</td></tr>
+    {% endfor %}
+  </table>
+  <div class="totals" style="max-width:340px;margin:12px 0 0 auto">
+    <span>Tạm tính</span><span class="right">{{ order.subtotal|money }}</span>
+    <span>Giảm giá</span><span class="right">−{{ order.discount|money }}</span>
+    <span>Phí vận chuyển</span><span class="right">{{ order.shipping_fee|money }}</span>
+    <span class="grand">Tổng</span><span class="grand right">{{ order.grand_total|money }}</span>
+  </div>
+</div>
+
+<div class="cols">
+  <div class="card table-wrap">
+    <h2>Thanh toán</h2>
+    <table>
+      <tr><th>Loại</th><th>Phương thức</th><th class="num">Số tiền</th><th>Trạng thái</th><th>Thời điểm</th></tr>
+      {% for p in order.payments %}
+        <tr><td>{{ p.kind|label }}</td><td>{{ p.method|label }} {{ p.masked_number or '' }}</td><td class="num">{{ p.amount|money }}</td>
+          <td>{{ status(p.status) }}</td><td>{{ p.created_at|dt }}</td></tr>
+      {% else %}<tr><td colspan="5" class="muted">Chưa có giao dịch.</td></tr>{% endfor %}
+    </table>
+    {% if order.status.value == 'pending_payment' %}<p><a href="{{ url_for('shop.order_result', order_id=order.id) }}">Thanh toán lại →</a></p>{% endif %}
+  </div>
+  <div class="card table-wrap">
+    <h2>Kiện hàng</h2>
+    <table>
+      <tr><th>Kiện</th><th>Loại</th><th>Hãng / mã vận đơn</th><th>Trạng thái</th></tr>
+      {% for s in order.shipments %}
+        <tr><td><a href="{{ url_for('shop.track_shipment', order_id=order.id, shipment_id=s.id) }}">#{{ s.id }}</a></td>
+          <td>{{ s.direction|label }}</td><td>{{ s.carrier or 'chưa bàn giao' }} {{ s.tracking_no or '' }}</td><td>{{ status(s.status) }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="actions">
+  {% if order.can_confirm_received %}
+    <form method="post" action="{{ url_for('shop.order_received', order_id=order.id) }}" onsubmit="return confirm('Xác nhận bạn đã nhận đủ hàng?')">
+      {{ csrf() }}<button class="primary">Đã nhận hàng</button></form>
+  {% endif %}
+  {% if order.can_return %}<a class="btn" href="{{ url_for('shop.return_request', order_id=order.id) }}">Trả / đổi hàng</a>{% endif %}
+</div>
+
+{% if order.can_cancel %}
+<div class="card" style="margin-top:18px">
+  <h2>Huỷ đơn</h2>
+  <p class="muted small">{% if order.status.value == 'processing' %}Đơn đang được đóng gói: yêu cầu huỷ sẽ chờ quản lý duyệt.
+    {% else %}Đơn sẽ được huỷ ngay; tiền đã thanh toán sẽ được hoàn lại.{% endif %}</p>
+  <form method="post" action="{{ url_for('shop.order_cancel', order_id=order.id) }}" class="row" onsubmit="return confirm('Huỷ đơn {{ order.order_no }}?')">
+    {{ csrf() }}
+    <div class="field"><label>Lý do</label><select name="reason">{% for r in reasons %}<option>{{ r }}</option>{% endfor %}</select></div>
+    <div class="field"><label>Lý do khác (nếu có)</label><input name="reason_detail"></div>
+    <div class="field"><button class="danger">Huỷ đơn</button></div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.log
+code/media/
+backups/
+external_services/.venv/
+external_services/ai_service/.venv/
+external_services/run/

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Đăng nhập{% endblock %}
+{% block content %}
+<div class="card auth">
+  <h1>Đăng nhập</h1>
+  <p class="muted">Thời trang cho mọi ngày — đăng nhập để mua hàng và theo dõi đơn.</p>
+  <form method="post" action="{{ url_for('shop.login', next=request.args.get('next')) }}">
+    {{ csrf() }}
+    <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" value="{{ email }}" required autofocus></div>
+    <div class="field"><label for="password">Mật khẩu</label><input id="password" name="password" type="password" required></div>
+    <button class="primary" style="width:100%">Đăng nhập</button>
+  </form>
+  <p class="muted small" style="margin-top:16px">Chưa có tài khoản? <a href="{{ url_for('shop.register') }}">Đăng ký tài khoản khách</a></p>
+</div>
+{% endblock %}

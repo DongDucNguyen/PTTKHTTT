@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf, status %}
+{% block title %}Theo dõi kiện #{{ shipment.id }}{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('shop.order_detail', order_id=order.id) }}">← Đơn {{ order.order_no }}</a></p>
+<div class="cols">
+  <div class="card">
+    <h1>Kiện #{{ shipment.id }}</h1>
+    <p>Hãng: {{ shipment.carrier or 'chưa bàn giao' }}</p>
+    <p>Mã vận đơn: {{ shipment.tracking_no or '—' }}</p>
+    <p>Trạng thái: {{ status(shipment.status) }}{% if shipment.delivered_at %} <span class="muted">(giao lúc {{ shipment.delivered_at|dt }})</span>{% endif %}</p>
+    <table>
+      <tr><th>SKU</th><th>Sản phẩm</th><th class="num">SL</th></tr>
+      {% for r in shipment.records %}<tr><td>{{ r.sku }}</td><td>{{ r.style_name }}</td><td class="num">{{ r.quantity }}</td></tr>{% endfor %}
+    </table>
+    {% if shipment.tracking_no %}
+      <form method="post" class="actions">{{ csrf() }}<button>Cập nhật từ hãng vận chuyển</button></form>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h2>Hành trình</h2>
+    <ul class="timeline">
+      {% for e in events|reverse %}<li><strong>{{ e.status|label }}</strong> <span class="muted small">{{ e.occurred_at|dt }}</span>
+        {% if e.note %}<div class="muted small">{{ e.note }}</div>{% endif %}</li>
+      {% else %}<li class="muted">Chưa có sự kiện.</li>{% endfor %}
+    </ul>
+  </div>
+</div>
+{% endblock %}

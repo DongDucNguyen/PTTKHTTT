@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Hồ sơ{% endblock %}
+{% block content %}
+<h1>Hồ sơ</h1>
+<div class="cols">
+  <div class="card">
+    <h2>Thông tin</h2>
+    <form method="post">
+      {{ csrf() }}
+      <div class="field"><label>E-mail</label><input value="{{ customer.email }}" disabled></div>
+      <div class="field"><label for="full_name">Họ tên</label><input id="full_name" name="full_name" value="{{ customer.full_name or '' }}" required></div>
+      <div class="field"><label for="phone">Điện thoại</label><input id="phone" name="phone" value="{{ customer.phone or '' }}" required></div>
+      <div class="field"><label for="preferred_colours">Màu yêu thích (phân cách bằng dấu phẩy)</label>
+        <input id="preferred_colours" name="preferred_colours" value="{{ (customer.preferred_colours or [])|join(', ') }}"></div>
+      <label><input type="checkbox" name="marketing_consent" value="1" {% if customer.marketing_consent %}checked{% endif %}> Nhận tin khuyến mãi</label>
+      <div class="actions"><button class="primary">Lưu thông tin</button></div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>Sổ địa chỉ</h2>
+    {% for a in addresses %}
+      <div style="border-top:1px solid var(--ink-700);padding:8px 0" class="row">
+        <div style="flex:1"><strong>{{ a.recipient_name }}</strong> – {{ a.phone }}{% if a.is_default %} <span class="status">Mặc định</span>{% endif %}
+          <div class="muted small">{{ a.one_line() }}</div></div>
+        <a class="btn" href="{{ url_for('shop.address', address_id=a.id) }}">Sửa</a>
+        <form method="post" action="{{ url_for('shop.address_delete', address_id=a.id) }}" onsubmit="return confirm('Xoá địa chỉ này?')">
+          {{ csrf() }}<button class="danger">Xoá</button></form>
+      </div>
+    {% else %}<p class="muted">Chưa có địa chỉ.</p>{% endfor %}
+    <a class="btn btn-primary" href="{{ url_for('shop.address') }}">+ Thêm địa chỉ</a>
+  </div>
+
+  <div class="card">
+    <h2>Thẻ / ví / tài khoản đã liên kết</h2>
+    {% for m in methods %}
+      <div style="border-top:1px solid var(--ink-700);padding:8px 0" class="row">
+        <div style="flex:1">{{ m.method_type|label }} · {{ m.provider }} {{ m.masked_number }}{% if m.is_default %} <span class="status">Mặc định</span>{% endif %}</div>
+        <form method="post" action="{{ url_for('shop.payment_remove', method_id=m.id) }}" onsubmit="return confirm('Gỡ liên kết {{ m.provider }} {{ m.masked_number }}?')">
+          {{ csrf() }}<button class="danger">Gỡ liên kết</button></form>
+      </div>
+    {% else %}<p class="muted">Chưa liên kết phương thức nào.</p>{% endfor %}
+    <form method="post" action="{{ url_for('shop.payment_link') }}" class="row" style="margin-top:12px">
+      {{ csrf() }}
+      <div class="field"><label for="method_type">Loại</label>
+        <select id="method_type" name="method_type">{% for t in method_types %}<option value="{{ t.value }}">{{ t|label }}</option>{% endfor %}</select></div>
+      <div class="field"><label for="provider">Nhà cung cấp</label>
+        <select id="provider" name="provider">
+          {% for t in method_types %}<optgroup label="{{ t|label }}">{% for p in providers[t] %}<option>{{ p }}</option>{% endfor %}</optgroup>{% endfor %}
+        </select></div>
+      <label><input type="checkbox" name="is_default" value="1"> Mặc định</label>
+      <div class="field"><button>Liên kết</button></div>
+    </form>
+    <p class="hint">Số thẻ / tài khoản được nhập trên trang của cổng thanh toán; ABC Fashion chỉ lưu số đã che.</p>
+  </div>
+
+  <div class="card">
+    <h2>Cỡ đã lưu</h2>
+    <table>
+      <tr><th>Danh mục</th><th>Cỡ</th></tr>
+      {% for s in sizes %}<tr><td>{{ s.category_name }}</td><td>{{ s.size_label }}</td></tr>
+      {% else %}<tr><td colspan="2" class="muted">Chưa lưu cỡ nào.</td></tr>{% endfor %}
+    </table>
+    <form method="post" action="{{ url_for('shop.size_save') }}" class="row" style="margin-top:12px">
+      {{ csrf() }}
+      <div class="field"><label for="category_id">Danh mục</label>
+        <select id="category_id" name="category_id">{% for c in categories %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select></div>
+      <div class="field"><label for="size_label">Cỡ</label><input id="size_label" name="size_label" required></div>
+      <div class="field"><button>Lưu cỡ</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

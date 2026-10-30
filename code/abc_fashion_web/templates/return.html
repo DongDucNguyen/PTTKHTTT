@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Trả / đổi hàng{% endblock %}
+{% block content %}
+<p><a href="{{ url_for('shop.order_detail', order_id=order.id) }}">← Đơn {{ order.order_no }}</a></p>
+<h1>Trả / đổi hàng — {{ order.order_no }}</h1>
+<form method="post" enctype="multipart/form-data">
+  {{ csrf() }}
+  <div class="card">
+    <h2>Loại yêu cầu</h2>
+    <div class="row">
+      {% for t in types %}<label><input type="radio" name="return_type" value="{{ t.value }}"
+        {% if (form.return_type or 'return') == t.value %}checked{% endif %}> {{ t|label }} ({{ 'hoàn tiền' if t.value == 'return' else 'đổi màu / cỡ khác' }})</label>{% endfor %}
+    </div>
+  </div>
+  <div class="card table-wrap">
+    <h2>Chọn hàng muốn trả / đổi</h2>
+    <table>
+      <tr><th>Sản phẩm</th><th>Màu / cỡ</th><th class="num">Đã mua</th><th>Số lượng trả</th><th>Đổi sang (chỉ khi đổi hàng)</th></tr>
+      {% for i in order.items %}
+        <tr><td>{{ i.style_name }}<div class="muted small">{{ i.sku }}</div></td><td>{{ i.colour }}/{{ i.size_label }}</td>
+          <td class="num">{{ i.quantity }}</td>
+          <td><select name="qty_{{ i.id }}">{% for n in range(0, i.quantity + 1) %}<option {% if form.get('qty_' ~ i.id) == n|string %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></td>
+          <td><select name="rep_{{ i.id }}"><option value="">—</option>
+            {% for v in replacements[i.id] %}<option value="{{ v.id }}" {% if form.get('rep_' ~ i.id) == v.id|string %}selected{% endif %}>{{ v.colour }}/{{ v.size_label }} (còn {{ v.available or 0 }})</option>{% endfor %}
+          </select></td></tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <div class="field"><label for="reason_code">Lý do</label>
+      <select id="reason_code" name="reason_code"><option value="">— Chọn lý do —</option>
+        {% for r in reasons %}<option value="{{ r.value }}" {% if form.reason_code == r.value %}selected{% endif %}>{{ r|label }}</option>{% endfor %}
+      </select></div>
+    <div class="field"><label for="reason_detail">Mô tả thêm</label><textarea id="reason_detail" name="reason_detail" rows="3">{{ form.reason_detail or '' }}</textarea></div>
+    <div class="field"><label for="evidence">Ảnh / video bằng chứng</label><input id="evidence" type="file" name="evidence" accept="image/*,video/*" multiple>
+      <span class="hint">Bắt buộc khi lỗi sản phẩm, giao sai hàng hoặc không như mô tả.</span></div>
+    <button class="primary">Gửi yêu cầu</button>
+  </div>
+</form>
+{% endblock %}

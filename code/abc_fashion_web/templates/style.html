@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}{{ style.name }}{% endblock %}
+{% block content %}
+<div class="cols">
+  <div class="gallery">
+    {% if images %}
+      <img id="main-image" class="main" src="/{{ images[0].url }}" alt="{{ style.name }}">
+      {% if images|length > 1 %}
+        <div class="thumbs">
+          {% for m in images %}<img src="/{{ m.url }}" alt="{{ m.colour or '' }}" onclick="document.getElementById('main-image').src=this.src">{% endfor %}
+        </div>
+      {% endif %}
+    {% else %}
+      <div class="main" style="display:flex;align-items:center;justify-content:center"><span class="muted">(chưa có ảnh)</span></div>
+    {% endif %}
+  </div>
+
+  <div>
+    <h1>{{ style.name }}</h1>
+    <p class="muted">{{ style.brand or '' }} · {{ style.category_name }} · mã {{ style.code }}</p>
+    {% if any_promotion %}
+      <p class="promo">Khuyến mãi: {{ any_promotion.name }} ({{ 'giá đã giảm' if promotion else 'nhập mã khi thanh toán' }})</p>
+    {% endif %}
+
+    {% if offers %}
+      <form method="post" action="{{ url_for('shop.cart_add') }}">
+        {{ csrf() }}
+        <input type="hidden" name="style_id" value="{{ style.id }}">
+        <div class="variants">
+          {% for o in offers %}
+            {% set v = o.variant %}
+            <label class="variant {{ 'out' if o.available <= 0 }}">
+              <input type="radio" name="variant_id" value="{{ v.id }}" {% if o.available <= 0 %}disabled{% endif %}
+                     {% if loop.first and o.available > 0 %}checked{% endif %}>
+              <span style="flex:1"><strong>{{ v.colour }}</strong> / {{ v.size_label }}</span>
+              <span class="price-big" style="font-size:16px">{{ o.price|money }}</span>
+              {% if o.price != v.price %}<s class="muted small">{{ v.price|money }}</s>{% endif %}
+              <span class="small {{ 'bad' if o.available <= 0 else 'ok' }}">{{ o.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        <div class="row">
+          <div class="field" style="flex:0 0 110px"><label for="qty">Số lượng</label><input id="qty" type="number" name="quantity" value="1" min="1" max="10"></div>
+          <div class="field">
+            {% if customer %}<button class="primary">Thêm vào giỏ</button>
+            {% else %}<a class="btn btn-primary" href="{{ url_for('shop.login', next=request.path) }}">Đăng nhập để mua</a>{% endif %}
+          </div>
+        </div>
+      </form>
+    {% else %}
+      <p class="bad">Tạm ngừng bán</p>
+    {% endif %}
+
+    <div class="card">
+      <h3>Mô tả</h3>
+      <p>{{ style.description or '' }}</p>
+      <p class="muted small">Chất liệu: {% for m in style.materials %}{{ m.material }} {{ m.percent }}%{{ ', ' if not loop.last }}{% else %}—{% endfor %}</p>
+      <p class="muted small">Bảo quản: {{ style.care_instructions or '—' }}</p>
+      <p class="muted small">Dáng: {{ style.fit_type|label or '—' }}. {{ style.model_info or '' }}</p>
+    </div>
+  </div>
+</div>
+
+{% if size_rows %}
+<div class="card table-wrap">
+  <h2>Bảng cỡ (cm)</h2>
+  <table>
+    <tr><th>Cỡ</th>{% for m in measures %}<th class="num">{{ m|label }}</th>{% endfor %}</tr>
+    {% for size, vals in size_rows.items() %}
+      <tr><td>{{ size }}</td>{% for m in measures %}<td class="num">{{ '%g'|format(vals[m]) if m in vals else '' }}</td>{% endfor %}</tr>
+    {% endfor %}
+  </table>
+</div>
+{% endif %}
+
+<div class="cols">
+  <div class="card">
+    <h2>Đánh giá ({{ style.reviews|length }})</h2>
+    <p class="muted">{{ ('Tóm tắt: ' ~ summary) if summary else 'Chưa có đánh giá.' }}</p>
+    {% for r in style.reviews %}
+      <div style="border-top:1px solid var(--ink-700); padding:10px 0">
+        <span class="stars">{{ '★' * r.rating }}</span>
+        <span class="muted small">{{ r.colour }}/{{ r.size_label }} · {{ r.fit_vote|label }} · {{ r.created_at|dt }}</span>
+        <p style="margin:6px 0 0">{{ r.body }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="card" id="assistant">
+    <h2>Hỏi trợ lý AI</h2>
+    <div class="chat">
+      <div class="bubble bot">Xin chào! Bạn muốn hỏi gì về “{{ style.name }}”? (giá, tồn kho, chất liệu, cỡ, bảo quản, đổi trả)</div>
+      {% for q, a in turns %}
+        <div class="bubble me">{{ q }}</div>
+        <div class="bubble bot">{{ a }}</div>
+      {% endfor %}
+    </div>
+    <form method="post" action="{{ url_for('shop.ask_assistant', style_id=style.id) }}" class="row">
+      {{ csrf() }}
+      <div class="field" style="flex:1"><input name="question" placeholder="Ví dụ: Áo này có co rút không?" required></div>
+      <div class="field"><button class="primary">Hỏi</button></div>
+    </form>
+  </div>
+</div>
+{% endblock %}

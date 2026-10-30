@@ -1,0 +1,10 @@
+# torch cài riêng (bản CUDA 12.8, có GPU RTX 50-series):
+#   pip install torch --index-url https://download.pytorch.org/whl/cu128
+# Hoặc bản CPU: pip install torch --index-url https://download.pytorch.org/whl/cpu
+transformers>=4.50,<5     # 5.x chưa tương thích torch 2.11 (lỗi NP_SUPPORTED_MODULES)
+numpy
+pillow
+imageio-ffmpeg          # ffmpeg đi kèm, để giải mã mp3 / m4a / wav của Whisper
+fastapi>=0.115
+uvicorn>=0.32
+python-multipart        # nhận file ảnh / âm thanh

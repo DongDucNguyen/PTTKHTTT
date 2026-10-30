@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Đánh giá sản phẩm{% endblock %}
+{% block content %}
+<div class="card auth" style="max-width:640px">
+  <h1>Đánh giá sản phẩm</h1>
+  <h2>{{ item.style_name }}</h2>
+  <p class="muted">{{ item.sku }} · {{ item.colour }} / {{ item.size_label }} · đơn {{ order.order_no }}</p>
+  <form method="post">
+    {{ csrf() }}
+    <div class="row">
+      <div class="field"><label for="rating">Số sao</label>
+        <select id="rating" name="rating">{% for n in [5, 4, 3, 2, 1] %}<option value="{{ n }}" {% if form.rating|string == n|string %}selected{% endif %}>{{ '★' * n }}</option>{% endfor %}</select></div>
+      <div class="field"><label for="size_purchased">Cỡ đã mua</label><input id="size_purchased" name="size_purchased" value="{{ form.size_purchased or '' }}"></div>
+    </div>
+    <div class="field"><label>Độ vừa</label>
+      <div class="row">{% for v in fit_votes %}<label><input type="radio" name="fit_vote" value="{{ v.value }}"
+        {% if (form.fit_vote or 'true_to_size') == v.value %}checked{% endif %}> {{ v|label }}</label>{% endfor %}</div></div>
+    <div class="field"><label for="body">Nhận xét</label><textarea id="body" name="body" rows="5" required>{{ form.body or '' }}</textarea></div>
+    <div class="actions"><button class="primary">Gửi đánh giá</button>
+      <a class="btn" href="{{ url_for('shop.order_detail', order_id=order.id) }}">Quay lại</a></div>
+  </form>
+</div>
+{% endblock %}

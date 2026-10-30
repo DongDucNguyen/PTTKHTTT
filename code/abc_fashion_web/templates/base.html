@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ABC Fashion{% endblock %} · ABC Fashion</title>
+  <link rel="icon" href="/media/ui/logo.png">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="inner">
+    <a class="brand" href="{{ url_for('shop.home') }}"><img src="/media/ui/logo.png" alt="">ABC Fashion</a>
+    <form class="searchbar" action="{{ url_for('shop.search') }}">
+      <input name="q" placeholder="Tìm áo, váy, jeans…" value="{{ q or '' }}" aria-label="Từ khoá">
+      <button class="primary">Tìm</button>
+    </form>
+    <nav class="nav">
+      <a href="{{ url_for('shop.catalogue') }}">Danh mục</a>
+      {% if customer %}
+        <a href="{{ url_for('shop.cart') }}">Giỏ hàng{% if cart_count %}<span class="badge">{{ cart_count }}</span>{% endif %}</a>
+        <a href="{{ url_for('shop.orders') }}">Đơn hàng</a>
+        <a href="{{ url_for('shop.profile') }}">{{ customer.full_name }}</a>
+        <form class="inline" method="post" action="{{ url_for('shop.logout') }}">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+          <button class="link">Đăng xuất</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('shop.login') }}">Đăng nhập</a>
+        <a class="btn btn-primary" href="{{ url_for('shop.register') }}">Đăng ký</a>
+      {% endif %}
+    </nav>
+  </div>
+  <div class="catbar">
+    {% for c in categories_nav if c.parentId is none %}
+      <a href="{{ url_for('shop.catalogue', category=c.id) }}">{{ c.name }}</a>
+    {% endfor %}
+  </div>
+</header>
+<main>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>ABC Fashion · Đổi trả trong 30 ngày · Miễn phí giao hàng cho đơn từ 500.000 đ</footer>
+</body>
+</html>

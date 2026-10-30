@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "_macros.html" import product_grid %}
+{% block title %}Danh mục{% endblock %}
+{% block content %}
+<div class="sidebar-layout">
+  <aside class="card">
+    <h3>Danh mục</h3>
+    <p><a href="{{ url_for('shop.catalogue') }}">Tất cả</a></p>
+    {% for c in categories %}
+      <p style="margin:4px 0 4px {{ 0 if c.parentId is none else 14 }}px">
+        <a href="{{ url_for('shop.catalogue', category=c.id) }}" {% if category and category.id == c.id %}style="color:var(--sky-200);font-weight:600"{% endif %}>{{ c.name }}</a>
+      </p>
+    {% endfor %}
+  </aside>
+  <section>
+    <h1>{{ category.name if category else 'Tất cả sản phẩm' }}</h1>
+    <form class="card row">
+      {% if category %}<input type="hidden" name="category" value="{{ category.id }}">{% endif %}
+      <div class="field"><label>Cỡ</label>
+        <select name="size"><option value="">Mọi cỡ</option>{% for s in sizes %}<option {% if args.size == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></div>
+      <div class="field"><label>Màu</label>
+        <select name="colour"><option value="">Mọi màu</option>{% for c in colours %}<option {% if args.colour == c %}selected{% endif %}>{{ c }}</option>{% endfor %}</select></div>
+      <div class="field"><label>Dáng</label>
+        <select name="fit"><option value="">Mọi dáng</option>{% for f in fit_types %}<option value="{{ f.value }}" {% if args.fit == f.value %}selected{% endif %}>{{ f|label }}</option>{% endfor %}</select></div>
+      <div class="field"><label>Giá từ</label><input name="min" inputmode="numeric" value="{{ args.min or '' }}"></div>
+      <div class="field"><label>đến</label><input name="max" inputmode="numeric" value="{{ args.max or '' }}"></div>
+      <div class="field"><label>Sắp xếp</label>
+        <select name="sort">{% for text, key in sorts %}<option value="{{ key }}" {% if args.sort == key %}selected{% endif %}>{{ text }}</option>{% endfor %}</select></div>
+      <div class="field"><button class="primary">Lọc</button></div>
+    </form>
+    {% if styles %}{{ product_grid(styles) }}{% else %}<p class="muted">Không có sản phẩm phù hợp bộ lọc.</p>{% endif %}
+  </section>
+</div>
+{% endblock %}

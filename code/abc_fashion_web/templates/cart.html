@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Giỏ hàng{% endblock %}
+{% block content %}
+<h1>Giỏ hàng</h1>
+{% if cart.items %}
+<div class="card table-wrap">
+  <table>
+    <tr><th>Sản phẩm</th><th>Màu / cỡ</th><th class="num">Đơn giá</th><th>Số lượng</th><th class="num">Thành tiền</th><th></th></tr>
+    {% for i in cart.items %}
+      <tr {% if short.get(i.id|string) is not none %}style="outline:1px solid var(--danger)"{% endif %}>
+        <td><a href="{{ url_for('shop.style_detail', style_id=i.styleId) }}">{{ i.style_name }}</a><div class="muted small">{{ i.sku }}</div>
+          {% if short.get(i.id|string) is not none %}<div class="bad small">Chỉ còn {{ short[i.id|string] }}</div>{% endif %}</td>
+        <td>{{ i.colour }} / {{ i.size_label }}</td>
+        <td class="num">{{ i.price|money }}</td>
+        <td>
+          <form class="row" method="post" action="{{ url_for('shop.cart_update', item_id=i.id) }}">
+            {{ csrf() }}
+            <input type="number" name="quantity" value="{{ i.quantity }}" min="0" max="99" style="width:80px">
+            <button>Cập nhật</button>
+          </form>
+        </td>
+        <td class="num">{{ (i.quantity * i.price)|money }}</td>
+        <td>
+          <form method="post" action="{{ url_for('shop.cart_remove', item_id=i.id) }}">{{ csrf() }}<button class="danger">Xoá</button></form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+<div class="row" style="justify-content:space-between">
+  <a class="btn" href="{{ url_for('shop.catalogue') }}">← Tiếp tục mua</a>
+  <div class="row">
+    <span class="price-big">Tạm tính: {{ cart.subtotal|money }}</span>
+    <form method="post" action="{{ url_for('shop.cart_checkout') }}">{{ csrf() }}<button class="primary">Thanh toán</button></form>
+  </div>
+</div>
+{% else %}
+<div class="card"><p class="muted">Giỏ hàng trống.</p><a class="btn btn-primary" href="{{ url_for('shop.catalogue') }}">Mua sắm ngay</a></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Thanh toán{% endblock %}
+{% block content %}
+<h1>Thanh toán</h1>
+<form method="post" action="{{ url_for('shop.checkout') }}">
+  {{ csrf() }}
+  <input type="hidden" name="vouchers" value="{{ order.vouchers|map(attribute='code')|join(',') }}">
+  <div class="cols-2-1">
+    <div>
+      <div class="card table-wrap">
+        <h2>Sản phẩm</h2>
+        <table>
+          <tr><th>Sản phẩm</th><th>Màu / cỡ</th><th class="num">SL</th><th class="num">Đơn giá</th><th class="num">Giảm</th><th class="num">Thành tiền</th></tr>
+          {% for i in order.items %}
+            <tr><td>{{ i.style_name }}<div class="muted small">{{ i.sku }}</div></td><td>{{ i.colour }}/{{ i.size_label }}</td>
+              <td class="num">{{ i.quantity }}</td><td class="num">{{ i.unit_price|money }}</td>
+              <td class="num">{{ i.discount|money }}</td><td class="num">{{ i.line_total|money }}</td></tr>
+          {% endfor %}
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Giao hàng</h2>
+        {% if addresses %}
+          {% for a in addresses %}
+            <label style="display:block;margin-bottom:6px">
+              <input type="radio" name="address_id" value="{{ a.id }}" {% if address and a.id == address.id %}checked{% endif %}>
+              <span style="color:var(--text-100)">{{ a.recipient_name }} – {{ a.phone }}</span> – {{ a.one_line() }}
+            </label>
+          {% endfor %}
+        {% else %}
+          <p class="muted">Bạn chưa có địa chỉ giao hàng.</p>
+        {% endif %}
+        <p><a href="{{ url_for('shop.address', back=url_for('shop.checkout')) }}">+ Thêm địa chỉ</a></p>
+        <div class="row">
+          {% for d in ['standard', 'express'] %}
+            <label><input type="radio" name="delivery" value="{{ d }}" {% if order.delivery_service.value == d %}checked{% endif %}>
+              {{ 'Tiêu chuẩn' if d == 'standard' else 'Hoả tốc' }}</label>
+          {% endfor %}
+          <button name="action" value="recalc">Tính lại phí</button>
+        </div>
+        <div class="field" style="margin-top:12px"><label for="note">Ghi chú</label><input id="note" name="note" value="{{ form.note or '' }}"></div>
+      </div>
+
+      <div class="card">
+        <h2>Mã giảm giá</h2>
+        <div class="row">
+          <div class="field"><input name="voucher_code" placeholder="Nhập mã"></div>
+          <div class="field"><button name="action" value="voucher">Áp dụng</button></div>
+        </div>
+        {% if order.vouchers %}<p class="ok">Đã áp dụng: {{ order.vouchers|map(attribute='code')|join(', ') }}</p>{% endif %}
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>Phương thức thanh toán</h2>
+        {% for t in ['cod', 'card', 'e_wallet', 'bank_transfer'] %}
+          <label style="display:block;margin-bottom:6px">
+            <input type="radio" name="method_type" value="{{ t }}" {% if method_type.value == t %}checked{% endif %}>
+            {{ {'cod': 'Thanh toán khi nhận (COD)', 'card': 'Thẻ', 'e_wallet': 'Ví điện tử', 'bank_transfer': 'Chuyển khoản'}[t] }}
+          </label>
+        {% endfor %}
+        <div class="field" style="margin-top:8px">
+          <label for="method_id">Thẻ / ví đã liên kết</label>
+          <select id="method_id" name="method_id">
+            <option value="">— (ví chưa liên kết / không cần) —</option>
+            {% for t, list in options.items() %}
+              {% for m in list if m %}
+                <option value="{{ m.id }}" {% if method and m.id == method.id %}selected{% endif %}>{{ t|label }} · {{ m.provider }} {{ m.masked_number }}</option>
+              {% endfor %}
+            {% endfor %}
+          </select>
+          <span class="hint">Liên kết thẻ / ví trong <a href="{{ url_for('shop.profile') }}">Hồ sơ</a>.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="totals">
+          <span>Tạm tính</span><span class="right">{{ order.subtotal|money }}</span>
+          <span>Giảm giá</span><span class="right">−{{ order.discount|money }}</span>
+          <span>Phí vận chuyển</span><span class="right">{{ order.shipping_fee|money if order.shipping_fee else 'Miễn phí' }}</span>
+          <span class="grand">Tổng cộng</span><span class="grand right">{{ order.grand_total|money }}</span>
+        </div>
+        <div class="actions"><button class="primary" name="action" value="place" style="width:100%">Đặt hàng</button></div>
+        <p class="hint">Hàng được giữ cho bạn khi đặt; đơn chờ thanh toán quá 30 phút sẽ tự huỷ.</p>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}

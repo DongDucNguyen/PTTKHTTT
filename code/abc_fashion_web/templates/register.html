@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Đăng ký{% endblock %}
+{% block content %}
+<div class="card auth">
+  <h1>Đăng ký tài khoản</h1>
+  <form method="post">
+    {{ csrf() }}
+    <div class="field"><label for="full_name">Họ tên</label><input id="full_name" name="full_name" value="{{ form.full_name or '' }}" required></div>
+    <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" value="{{ form.email or '' }}" required></div>
+    <div class="field"><label for="phone">Điện thoại</label><input id="phone" name="phone" value="{{ form.phone or '' }}" placeholder="0912345678" required></div>
+    <div class="field"><label for="password">Mật khẩu</label><input id="password" name="password" type="password" required>
+      <span class="hint">Ít nhất 8 ký tự, có cả chữ và số.</span></div>
+    <div class="field"><label for="confirm_password">Nhập lại mật khẩu</label><input id="confirm_password" name="confirm_password" type="password" required></div>
+    <label><input type="checkbox" name="marketing_consent" value="1" {% if form.marketing_consent %}checked{% endif %}> Nhận tin khuyến mãi</label>
+    <div class="actions"><button class="primary">Đăng ký</button><a class="btn" href="{{ url_for('shop.login') }}">Đã có tài khoản</a></div>
+  </form>
+</div>
+{% endblock %}

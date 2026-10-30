@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf %}
+{% block title %}Địa chỉ{% endblock %}
+{% block content %}
+<div class="card auth" style="max-width:560px">
+  <h1>{{ 'Sửa địa chỉ' if address.id else 'Thêm địa chỉ' }}</h1>
+  <form method="post">
+    {{ csrf() }}
+    <input type="hidden" name="back" value="{{ back }}">
+    <div class="row">
+      <div class="field"><label for="recipient_name">Người nhận</label><input id="recipient_name" name="recipient_name" value="{{ address.recipient_name or '' }}" required></div>
+      <div class="field"><label for="phone">Điện thoại</label><input id="phone" name="phone" value="{{ address.phone or '' }}" required></div>
+    </div>
+    <div class="field"><label for="street">Số nhà, đường</label><input id="street" name="street" value="{{ address.street or '' }}" required></div>
+    <div class="row">
+      <div class="field"><label for="ward">Phường / xã</label><input id="ward" name="ward" value="{{ address.ward or '' }}" required></div>
+      <div class="field"><label for="district">Quận / huyện</label><input id="district" name="district" value="{{ address.district or '' }}" required></div>
+      <div class="field"><label for="city">Tỉnh / thành phố</label><input id="city" name="city" value="{{ address.city or '' }}" required></div>
+    </div>
+    <label><input type="checkbox" name="is_default" value="1" {% if address.is_default %}checked{% endif %}> Đặt làm mặc định</label>
+    <div class="actions"><button class="primary">Lưu</button><a class="btn" href="{{ back }}">Huỷ</a></div>
+  </form>
+</div>
+{% endblock %}

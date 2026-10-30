@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import status as badge %}
+{% block title %}Đơn hàng của tôi{% endblock %}
+{% block content %}
+<h1>Đơn hàng của tôi</h1>
+<form class="row card">
+  <div class="field"><label for="status">Trạng thái</label>
+    <select id="status" name="status"><option value="">Tất cả</option>
+      {% for s in statuses %}<option value="{{ s.value }}" {% if status == s %}selected{% endif %}>{{ s|label }}</option>{% endfor %}
+    </select></div>
+  <div class="field"><button>Lọc</button></div>
+</form>
+{% if orders %}
+<div class="card table-wrap">
+  <table>
+    <tr><th>Mã đơn</th><th>Ngày đặt</th><th class="num">Số dòng</th><th>Trạng thái</th><th class="num">Tổng tiền</th></tr>
+    {% for o in orders %}
+      <tr><td><a href="{{ url_for('shop.order_detail', order_id=o.id) }}">{{ o.order_no }}</a></td><td>{{ o.placed_at|dt }}</td>
+        <td class="num">{{ o.item_count }}</td><td>{{ badge(o.status) }}</td><td class="num">{{ o.grand_total|money }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% else %}<p class="muted">Chưa có đơn hàng.</p>{% endif %}
+{% endblock %}
