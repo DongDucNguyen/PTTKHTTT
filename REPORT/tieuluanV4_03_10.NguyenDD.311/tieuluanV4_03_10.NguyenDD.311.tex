@@ -1,0 +1,1848 @@
+%% =====================================================================
+%%  ESSAY (TIEU LUAN) -- FINAL (V4)   (submission name: tieuluanV4_03_10.NguyenDD.311)
+%%  Information System Analysis and Design -- ABC Fashion E-Commerce IS
+%%  Scope:  Chapter 1 (Requirements Identification)
+%%                   Chapter 2 (Requirements Analysis)
+%%                   Chapter 3 (AI for E-Commerce)            -- file chapter3.tex
+%%                   Chapter 4 (Design)                       -- file chapter4.tex
+%%                   Chapter 5 (Implementation)               -- file chapter5.tex
+%%  The Version-2 changes of Chapters 1-2 can be printed in red again with \showvtwotrue.
+%%  Diagram images of Chapter 4 (figures/a*, e*, d*, l*) can be replaced by the Visual Paradigm
+%%  exports with the same file names.
+%% =====================================================================
+\documentclass[11pt,a4paper,oneside]{extreport}
+
+% ---------------- Editable essay metadata ----------------------------
+\newcommand{\essayversion}{3}
+\newcommand{\classno}{03}            % class number  (lop)
+\newcommand{\groupno}{10}            % group number  (nhom)
+\newcommand{\studentname}{DONG DUC NGUYEN}
+\newcommand{\studentid}{B23DCVT311}
+\newcommand{\lecturer}{Dinh Que Tran}
+\newcommand{\submissiondate}{November 2026}
+% ---------------------------------------------------------------------
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\renewcommand{\ttdefault}{pcr} % Courier (scalable) for code
+\usepackage[a4paper,top=2.5cm,bottom=2.5cm,left=3cm,right=2cm,headheight=15pt]{geometry}
+\usepackage[pages=some]{background}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{array}
+\usepackage{calc}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.geometric,fit,calc}
+\usepackage{amsmath}
+\usepackage{lscape}
+\usepackage{hyphenat}
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+\usepackage{bookmark}
+
+% ---------------- Layout --------------------------------------------
+\setstretch{1.2}
+\setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\parindent}{0pt}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
+\setlist{itemsep=1pt,topsep=2pt}
+\renewcommand{\arraystretch}{1.25}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large}
+  {\MakeUppercase{\chaptertitlename}\ \thechapter}{4pt}{\LARGE}
+\titlespacing*{\chapter}{0pt}{0pt}{16pt}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{12pt}{4pt}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\subsection}{0pt}{8pt}{2pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small ABC Fashion E-Commerce Information System}
+\fancyhead[R]{\small Essay Report}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+\backgroundsetup{
+  scale=1, color=black, opacity=0.8, angle=0,
+  position=current page.center,
+  contents={\includegraphics[width=\paperwidth,height=\paperheight]{background.png}}
+}
+
+\lstset{
+  basicstyle=\ttfamily\scriptsize, columns=fullflexible, keepspaces=true,
+  breaklines=true, frame=single, numbers=left,
+  numberstyle=\tiny, showstringspaces=false
+}
+
+% ---------------- Version-2 change marking ------------------------------
+% In Version 2 every change of Chapters 1-2 was printed in red. Version 3 prints them in black;
+% write \showvtwotrue below to show the Version-2 changes in red again.
+\newif\ifshowvtwo
+\showvtwofalse
+\newcommand{\vtwocolor}{\ifshowvtwo\color{red}\fi}
+\newcommand{\upd}[1]{\ifshowvtwo\textcolor{red}{#1}\else#1\fi}
+\newenvironment{updated}{\par\vtwocolor}{\par}
+\newcommand{\R}{\leavevmode\vtwocolor}   % start of a table cell that was new in V2
+
+% Use-case specification row helper
+\newcommand{\ucrow}[2]{\textbf{#1} & #2 \\ \midrule}
+
+\hypersetup{
+  pdftitle={Essay - ABC Fashion E-Commerce Information System},
+  pdfauthor={\studentname}
+}
+
+% =====================================================================
+\begin{document}
+
+% ---------------------------- TITLE PAGE -----------------------------
+\begin{titlepage}
+\BgThispage
+\centering
+\textbf{\small POSTS AND TELECOMMUNICATIONS INSTITUTE OF TECHNOLOGY}\\
+\textbf{\small DEPARTMENT OF INFORMATION TECHNOLOGY}\\
+\vspace{1cm}
+\includegraphics[width=3cm]{logo.png}\\
+\vspace{1cm}
+{\Large \textbf{ESSAY REPORT}}\\[0.25cm]
+{\large \textbf{CHAPTERS 1 TO 5}}\\[0.5cm]
+{\textbf{COURSE: INFORMATION SYSTEM ANALYSIS AND DESIGN}}\\
+\vfill
+{\large \textbf{TOPIC: E-Commerce Information System for ABC Fashion}}\\[0.2cm]
+{\textbf{Requirements Identification, Requirements Analysis, AI for E-Commerce, System Design and Implementation}}\\
+\vfill
+\textbf{Prepared by:}\\[0.2cm]
+\textbf{Name:} \studentname\\
+\textbf{Student ID:} \studentid\\
+\textbf{Class:} \classno \quad \textbf{Group:} \groupno\\[0.6cm]
+\textbf{Lecturer:} \lecturer\\[0.3cm]
+\submissiondate
+\vfill
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\listoffigures
+\listoftables
+\clearpage
+\chapter*{How to Read This Report}
+\addcontentsline{toc}{chapter}{How to Read This Report}
+\markboth{How to Read This Report}{How to Read This Report}
+This is the \textbf{complete essay} (the final version, following Versions~1--3). It adds \textbf{Chapter~\ref{ch:design} (Design)} and \textbf{Chapter~\ref{ch:implementation} (Implementation)} to the three chapters of Version~2:
+\begin{itemize}
+  \item \textbf{Chapter 4} follows the five steps required for the design: the class diagram in analysis (4.1), the data model with the generated database and screens of it (4.2), the class diagram in design (4.3), the layers with their classes and relations (4.4), and the code generated from the layered design (4.5).
+  \item Chapters 1 and 3 are unchanged in content. In Chapter~2 the use-case specifications were reviewed against the implemented system and every activity diagram was redrawn in Visual Paradigm, one per specification (Section~\ref{sec:ucspec}). The changes made in Version~2, which were printed in red, are now printed in black; Appendix~\ref{app:revision} still lists them. Two cross-references to Chapter~4 were completed.
+  \item \textbf{Chapter 5} describes the implemented system (source code: \url{https://github.com/DongDucNguyen/PTTKHTTT}): the MVC architecture and its layer rules, the database, the model, DAO, gateway and controller layers, the business flows end to end, data integrity and concurrency, the desktop and web user interfaces, the external services, security, the tests, and the screenshots of every screen (Section~\ref{sec:impl-screens}).
+  \item Appendix~\ref{app:revision} lists the changes from Version~2 to this final version; how to run the system is described in Section~\ref{sec:impl-run}, and Appendix~\ref{app:run} explains how to run the AI assistant of Chapter~\ref{ch:ai}.
+\end{itemize}
+\clearpage
+\pagenumbering{arabic}
+
+% =====================================================================
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\markboth{Introduction}{Introduction}
+
+\section*{Context and Purpose}
+This essay develops an E-Commerce Information System for \textbf{ABC Fashion}, an online fashion retailer, as the Fashion E-Commerce specialisation of the ABC Online Shop case study used throughout the course \emph{Information System Analysis and Design}. Applying the analysis methodology to a fashion-retail context brings a distinctive characteristic to the fore: almost every product ABC Fashion sells exists online not as one item but as many purchasable \emph{variants} distinguished by size and colour. This variant structure, together with the correspondingly high volume of size- and fit-related returns, shapes the business's information needs in ways that differ from a generic e-commerce business.
+
+The essay is organised into five chapters that follow the system development life cycle:
+\begin{enumerate}[label=\textbf{Chapter \arabic*:},leftmargin=2.3cm]
+  \item Requirements Identification --- \emph{what is the business, who is involved, what is wrong, and what do stakeholders need?}
+  \item Requirements Analysis --- \emph{what exactly must the information system do?}
+  \item AI for E-Commerce --- \emph{how can artificial intelligence enhance the system?}
+  \item System Design --- \emph{how will the system be structured?}
+  \item Implementation --- \emph{how is the system built, run and verified?}
+\end{enumerate}
+
+\section*{Scope of the Report}
+This document is the \textbf{complete essay} and covers \textbf{Chapters 1--5}. Chapter~4 designs the information system: analysis and design class diagrams, the data model and the generated PostgreSQL database, the layered MVC architecture, and the Python code generated from it. Chapter~5 describes the complete implementation of that design --- a desktop application with 53 screens and a customer web application on one shared MVC core, a PostgreSQL database, simulated payment, shipping and messaging services and real AI services --- together with its tests and the screenshots of every screen.
+
+\upd{\textit{Version 2:} Version~2 covered \textbf{Chapters 1--3}. Chapters 1 and 2 were revised after the Version-1 review (elicitation approach, KPIs and SMART objectives, stakeholder prioritisation, a preliminary data model, and new needs, requirements and use cases for the AI feature). Chapter 3 introduces the AI applications that are common in e-commerce today, with real examples and evidence, and then presents the two AI functions built for ABC Fashion: intelligent search (text, voice and image), and an AI chatbot that comments on a product using only its description and customer reviews --- including why each model was chosen and how the quality was evaluated.}
+
+\textit{Version 1 consolidation (kept):} Version~1 of the essay covered \textbf{Chapter 1} and \textbf{Chapter 2}. It consolidates the complete results of Assignment 01 (E-Commerce Information System Investigation) and Assignment 02 (Requirements Engineering and Specification) into one coherent, cross-referenced document. During consolidation, identifiers were introduced for problems (P), stakeholder needs (SN), and objectives (O); terminology was harmonised; inconsistencies between the text and the UML diagrams were reviewed; and traceability was extended to cover every functional requirement. Appendix~\ref{app:revision} records how the source assignments map to this essay and what was revised. \upd{The preliminary AI notes of Assignment~02, kept as an appendix in Version~1, are now part of Chapter~\ref{ch:ai}.}
+
+\section*{Method}
+The essay follows the reasoning chain
+\begin{center}
+\textbf{Business Problems} $\rightarrow$ \textbf{Stakeholder Needs} $\rightarrow$ \textbf{System Requirements} $\rightarrow$ \textbf{Use Cases} $\rightarrow$ \textbf{Use-Case Specifications}
+\end{center}
+Chapter~1 answers six guiding questions --- what the business is, who participates in it, what it does, what information it uses, what problems currently exist, and what information system should be considered --- and closes with the stakeholder needs derived from these findings. Chapter~2 transforms those needs into functional and non-functional requirements, prioritises them, and models them as actors and use cases, before tracing and validating the result. \upd{Chapter~3 extends the chain to AI: problems $\rightarrow$ candidate AI applications $\rightarrow$ weighted evaluation $\rightarrow$ selected feature $\rightarrow$ requirements (added to Chapter~2) $\rightarrow$ design, implementation and evaluation of the feature.} Throughout, the terms \emph{style} (a product design), \emph{variant} or \emph{SKU} (a specific size/colour combination of a style), and \emph{return/exchange} are used consistently.
+
+% =====================================================================
+\chapter{Requirements Identification}
+\label{ch:identification}
+
+This chapter establishes the business understanding from which the system requirements are derived. It answers the central question: \emph{what problem should the information system solve for ABC Fashion?} The chapter proceeds from business background (Section~\ref{sec:background}) through stakeholders (Section~\ref{sec:stakeholders}), business activities (Section~\ref{sec:activities}), information (Section~\ref{sec:information}) and current problems (Section~\ref{sec:problems}) to a preliminary system proposal (Section~\ref{sec:proposal}), and concludes by identifying stakeholder goals and needs (Section~\ref{sec:needs}), which form the input to Chapter~\ref{ch:analysis}. \upd{Version~2 adds, first, how the requirements were elicited and which assumptions were made (Section~\ref{sec:elicitation}).}
+
+% ---------------------------------------------------------------------
+\section{\upd{Requirements Elicitation Approach}}
+\label{sec:elicitation}
+\begin{updated}
+Version~1 presented the results of the investigation but not how they were obtained. Because ABC Fashion is a case study and its staff cannot be interviewed, requirements were identified by combining the techniques in Table~\ref{tab:elicitation}. Every finding in this chapter can be traced to at least one of them.
+
+\begin{xltabular}{\textwidth}{@{}L{2.9cm} L{3.6cm} Y L{3.2cm}@{}}
+\caption{Elicitation techniques used}\label{tab:elicitation}\\
+\toprule
+\textbf{Technique} & \textbf{Applied to} & \textbf{Main output} & \textbf{Limitation} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Technique} & \textbf{Applied to} & \textbf{Main output} & \textbf{Limitation} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Document analysis & Assignment~01/02 briefs, course material & Business model, activities, first list of problems & The case text is short and has no figures \\ \addlinespace
+Domain analysis and benchmarking & Public product pages, size guides and return policies of online fashion retailers; published industry evidence (e.g.\ Zalando reports that one third of its returns are size-related \cite{zalando_size}) & Variant structure, size/fit information needs, return flow & Practices of large retailers may not fit a medium-sized one \\ \addlinespace
+Role-based stakeholder analysis & The eleven stakeholder roles & Goals, interests and needs (Sections~\ref{sec:stakeholders} and~\ref{sec:needs}) & Needs are inferred, not stated by real people \\ \addlinespace
+Scenario walk-throughs (group workshop) & Customer journey from search to return; staff journeys (picking, return inspection) & Business process (Figure~\ref{fig:process}); use cases (Chapter~\ref{ch:analysis}) & Roles were played by students \\ \addlinespace
+Prototyping & The search and chatbot prototypes of Chapter~\ref{ch:ai} & Concrete AI requirements (FR39--FR45, NFR13--NFR16) & Demo data are synthetic \\
+\end{xltabular}
+
+\textbf{Assumptions.} Because the case is fictional, the analysis rests on four explicit assumptions, which must be confirmed with ABC Fashion before design is finalised:
+\begin{enumerate}[label=\textbf{A\arabic*.},leftmargin=1cm]
+  \item ABC Fashion sells in Vietnam: prices are in VND, and customers write in Vietnamese or English.
+  \item Sales and stock data exist, but are kept largely per style in spreadsheets and separate tools (consistent with P1 and P6).
+  \item The case gives no numerical baseline (return rate, stock accuracy, cycle times). The indicators in Section~\ref{subsec:kpis} must be measured before the targets of Section~\ref{subsec:objectives} are confirmed.
+  \item Customers can already leave ratings and comments on the website, but these are not structured (no size bought, no fit vote) and are moderated by hand.
+\end{enumerate}
+\end{updated}
+
+% ---------------------------------------------------------------------
+\section{Business Background}
+\label{sec:background}
+
+\subsection{Business Purpose}
+ABC Fashion exists to give style-conscious customers a convenient and trustworthy way to discover, select, and purchase clothing, footwear, and accessories online. Its primary purpose is to serve individual online shoppers through a single digital sales channel, offering seasonal collections across multiple sizes and colours, and supporting this offer with the core retail functions of order processing, payment, inventory, delivery, and returns and exchanges.
+
+Beyond serving customers, ABC Fashion aims to sustain its own growth by managing these functions efficiently across an unusually large and fast-changing product range: a single garment or shoe style is, in practice, several sellable items --- one per size/colour combination --- and collections rotate every season. As the business has expanded, its information practices have not kept pace with this complexity, particularly around variant-level inventory accuracy and the handling of size- and fit-related returns. This gap motivates the investigation and is examined in detail in Section~\ref{sec:problems}.
+
+\subsection{Organisation}
+\textbf{Organisation name:} ABC Fashion.\\
+\textbf{Type of business:} A medium-sized, single-vendor online fashion retailer that curates and manages its own catalogue of clothing, footwear, and accessories, rather than operating as a multi-seller marketplace.
+
+\subsection{Business Model}
+\textbf{Sales channels.} ABC Fashion sells exclusively through a single online channel --- its e-commerce website and companion mobile app. It has no physical storefront, so this channel is the customer's only point of contact with the business.
+
+\textbf{Revenue and fulfilment.} Revenue comes from direct sales of seasonal collections, supplemented by periodic promotional sales (end-of-season clearance, flash sales, loyalty discounts) that are especially important in fashion retail because of short product life cycles. Order fulfilment is hybrid: customers order digitally, but stock verification at the size/colour level, order verification, and return processing still rely substantially on manual staff work rather than full automation.
+
+\textbf{Business objectives.} The business aims to (1) grow online sales volume across collections; (2) retain customers through convenient, reliable service and accurate sizing and style information that reduces the chance of a mismatched purchase; and (3) operate its retail processes --- especially variant-level inventory and returns handling --- efficiently as the business scales. These objectives are currently constrained by the information-management problems discussed in Section~\ref{sec:problems}: inconsistent variant-level product data and slow, manual returns processing work directly against the goals of reliability and efficient scaling.
+
+\subsection{Products and Customers}
+\textbf{Products.} Clothing, footwear, and fashion accessories organised into seasonal collections and categories (e.g., tops, bottoms, dresses, outerwear, shoes, bags). Almost every item exists as multiple purchasable variants defined by size and colour, and sometimes material.
+
+\textbf{Target customers.} Individual, style-conscious online shoppers who value on-trend product choice, accurate size and fit information, and a simple, low-friction returns and exchange experience.
+
+\subsection{\upd{Business Performance Indicators}}
+\label{subsec:kpis}
+\begin{updated}
+To judge later whether the information system solves the problems of Section~\ref{sec:problems}, Version~2 defines the indicators in Table~\ref{tab:kpis}. They are measured before go-live (baseline, assumption A3) and afterwards.
+
+\begin{xltabular}{\textwidth}{@{}l L{3.4cm} Y L{1.4cm}@{}}
+\caption{Business performance indicators}\label{tab:kpis}\\
+\toprule
+\textbf{ID} & \textbf{Indicator} & \textbf{Definition} & \textbf{Problem} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Indicator} & \textbf{Definition} & \textbf{Problem} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+K1 & Stock accuracy & Share of SKUs whose system stock equals the physical count at cycle counting & P1 \\
+K2 & Stock-out cancellations & Orders cancelled because a variant was not actually in stock, per 100 orders & P1 \\
+K3 & Return rate and size-related share & Returned items / delivered items; share of returns with reason ``size or fit'' & P2, P3 \\
+K4 & Return cycle time & Working days from return request to refund or exchange & P3 \\
+K5 & Order-status inquiries & Customer contacts about order status per 100 orders & P4 \\
+K6 & Report lead time & Time needed to produce the weekly sales, stock and returns report & P5 \\
+K7 & Duplicate customer records & Share of customers with more than one record & P6 \\
+K8 & Product-page conversion & Orders containing the product / product-page sessions & Objective (1) \\
+\end{xltabular}
+\end{updated}
+
+\subsection{Major Business Activities}
+At a high level, ABC Fashion's operations consist of the major business activities in Table~\ref{tab:activities}, each playing a distinct role in delivering the overall business.
+
+\begin{xltabular}{\textwidth}{@{}L{3.6cm} Y@{}}
+\caption{Major business activities of ABC Fashion}\label{tab:activities}\\
+\toprule
+\textbf{Activity} & \textbf{Role} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Activity} & \textbf{Role} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Product Management & Maintains the catalogue of styles and their size/colour variants (descriptions, prices, size charts, images) so customers can browse accurate, size-specific offerings. \\
+Customer Management & Manages customer registration, profiles, saved sizes, and preferences to support ordering, personalisation, and communication. \\
+Order Management & Handles creation, tracking, and fulfilment of customer orders at the specific size/colour variant ordered, including split shipments when an order cannot be fully met from one location. \\
+Payment Management & Processes and verifies customer payments and promotional discounts, linking orders to confirmed transactions. \\
+Inventory Management & Tracks stock levels per product variant (size $\times$ colour) so that availability shown to customers matches actual stock, including stock returned by customers. \\
+Shipping Management & Coordinates delivery of ordered items from the warehouse to the customer, and the reverse flow of returned or exchanged items. \\
+Promotion Management & Creates and manages seasonal sales, discounts, and marketing campaigns to move new collections and clear ageing stock. \\
+Review Management & Collects and manages customer feedback and ratings, including fit/size feedback that helps future buyers choose the right size. \\
+Reporting & Compiles business data (sales, inventory, returns) at product, variant, and collection level to support management and merchandising decisions. \\
+\end{xltabular}
+
+Because size- and fit-related returns are a defining feature of fashion retail, Return \& Exchange handling is analysed as an activity closely coupled to, but distinct from, Shipping Management (see Sections~\ref{subsec:shipping} and~\ref{sec:problems}).
+
+% ---------------------------------------------------------------------
+\section{Stakeholder Identification}
+\label{sec:stakeholders}
+Figure~\ref{fig:stakeholders} presents the main internal and external stakeholders who interact with, or are affected by, ABC Fashion's e-commerce business.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\linewidth]{stakeholder_map.png}
+\caption{Stakeholder map of ABC Fashion}
+\label{fig:stakeholders}
+\end{figure}
+
+\subsection{Internal Stakeholders}
+\begin{itemize}
+  \item \textbf{Administrator} --- manages system configuration and day-to-day business operations.
+  \item \textbf{Merchandiser / Buyer} --- selects and curates seasonal collections, deciding which styles, colours, and sizes to stock.
+  \item \textbf{Sales Staff} --- handles order verification and customer communication.
+  \item \textbf{Warehouse Staff} --- manages stock receipt, picking, packing, and returns inspection.
+  \item \textbf{Customer Service Staff} --- handles support requests, complaints, reviews, and return/exchange cases.
+  \item \textbf{Marketing Staff} --- plans and runs promotions and seasonal campaigns.
+  \item \textbf{Manager} --- monitors overall business performance and makes strategic decisions.
+\end{itemize}
+
+\subsection{External Stakeholders}
+\begin{itemize}
+  \item \textbf{Customer} --- browses, purchases, and may return or exchange products.
+  \item \textbf{Supplier} --- the fashion brands or manufacturers that provide garments and footwear for sale.
+  \item \textbf{Payment Provider} --- processes and settles customer payments.
+  \item \textbf{Shipping Provider} --- delivers orders and collects returned items.
+\end{itemize}
+
+\subsection{Stakeholder Interests}
+\begin{xltabular}{\textwidth}{@{}L{3.3cm} L{4.2cm} Y@{}}
+\caption{Stakeholder roles and interests}\label{tab:interests}\\
+\toprule
+\textbf{Stakeholder} & \textbf{Role} & \textbf{Main Interest} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Stakeholder} & \textbf{Role} & \textbf{Main Interest} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Customer & Purchases products & Accurate size/fit information, reliable delivery, and easy returns \\
+Administrator & Manages system and business operations & Efficient, accurate management of a large, fast-changing catalogue \\
+Merchandiser / Buyer & Selects and curates seasonal collections & Reliable sales and stock data to plan future collections and sizes \\
+Sales Staff & Handles orders and customers & Accurate order, size, and customer information \\
+Warehouse Staff & Manages inventory and returns & Accurate stock information at the size/colour level \\
+Customer Service Staff & Handles support, complaints, reviews, and returns & Fast access to order, size, and return history \\
+Marketing Staff & Manages promotions and campaigns & Reliable sales data for campaign targeting \\
+Manager & Monitors business performance & Timely reports for decisions on sales, inventory, and returns \\
+Supplier & Provides garments/footwear for sale & Accurate demand and reorder information by style and size \\
+Payment Provider & Processes payments & Secure transaction data \\
+Shipping Provider & Delivers products and collects returns & Correct delivery and return-pickup information \\
+\end{xltabular}
+
+\subsection{\upd{Stakeholder Prioritisation}}
+\begin{updated}
+Not every stakeholder can be involved in the same way. Table~\ref{tab:powerinterest} classifies them on a power/interest grid and states how each group is engaged in the project.
+
+\begin{xltabular}{\textwidth}{@{}L{3.3cm} L{4.4cm} Y@{}}
+\caption{Stakeholder power/interest grid and engagement}\label{tab:powerinterest}\\
+\toprule
+\textbf{Quadrant} & \textbf{Stakeholders} & \textbf{Engagement in this project} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Quadrant} & \textbf{Stakeholders} & \textbf{Engagement in this project} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+High power, high interest (manage closely) & Manager, Administrator, Merchandiser / Buyer; Customers as a group & Sign off requirements and priorities; customers are represented through scenarios, reviews and usability tests \\ \addlinespace
+High power, lower interest (keep satisfied) & Payment Provider, Shipping Provider & Agree interface contracts (data formats, error handling, security) early \\ \addlinespace
+Lower power, high interest (keep informed) & Warehouse Staff, Customer Service Staff, Sales Staff, Marketing Staff & Validate use cases and screens; user acceptance testing of inventory, returns and review moderation \\ \addlinespace
+Lower power, lower interest (monitor) & Supplier & Informed about the restock request format \\
+\end{xltabular}
+\end{updated}
+
+% ---------------------------------------------------------------------
+\section{Business Activity Analysis}
+\label{sec:activities}
+ABC Fashion's operations can be summarised as a flow from product discovery to delivery, with an important reverse flow for returns and exchanges that is characteristic of fashion retail, and a reporting activity that draws on data from across the flow. Figure~\ref{fig:process} presents this high-level process; the following subsections analyse each major activity.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\linewidth]{business_process.png}
+\caption{High-level business process of ABC Fashion}
+\label{fig:process}
+\end{figure}
+
+\subsection{Product Management}
+This activity manages product information from the general style level down to specific variants. Maintaining accurate descriptive content about styles, colours, and sizes enables customers to carry out the \emph{Browse \& Search Product} step and to \emph{Select Size \& Colour} accurately, matching their physical needs before adding items to the cart.
+
+\subsection{Customer Management}
+This activity manages user profiles, purchase history, and sizing preferences to personalise the shopping experience. Its data supports recommending the correct product variants, facilitates a smooth ordering process, and identifies users accurately when post-purchase \emph{Customer Feedback} is collected at the end of the customer journey.
+
+\subsection{Order Processing}
+This activity covers the steps in which customers \emph{Checkout Shopping Cart} and \emph{Place Order} for specific SKU variants rather than generic styles. The system must verify the availability of each size/colour combination to process the line items accurately before moving the transaction to the payment stage.
+
+\subsection{Payment}
+This step processes financial transactions, applies seasonal discounts, and confirms successful payments to release the order to the warehouse for fulfilment. At the \emph{Payment} node, a data flow representing revenue (sales data) is routed directly to \emph{Reporting}.
+
+\subsection{Inventory}
+After payment, an \emph{Update Inventory} action deducts stock at the size/colour variant level, giving warehouse staff accurate, real-time data to \emph{Pick \& Pack} the items. The warehouse also receives restocked items from the \emph{Return/Exchange} flow and continuously synchronises its status (inventory data) to \emph{Reporting}.
+
+\subsection{Shipping and Reverse Logistics}
+\label{subsec:shipping}
+This activity coordinates the outbound dispatch of packaged variants to the buyer (\emph{Ship/Deliver}). Crucially in the fashion domain, it also branches into the \emph{Return/Exchange} (reverse logistics) flow when sizing issues or defects occur, determining whether recovered goods meet the quality criteria to be routed back into \emph{Update Inventory}.
+
+\subsection{Promotion and Review Management}
+Promotions (seasonal sales, flash sales, loyalty discounts) are applied during checkout and payment, and their effect on sales is visible through reporting. Reviews close the customer journey at \emph{Customer Feedback}; for a fashion retailer, size/fit feedback is particularly valuable because it helps later customers choose the right variant and therefore reduces returns. \upd{Reviews are also the main evidence used by the AI assistant of Chapter~\ref{ch:ai}, which summarises what customers say about fabric, fit and quality. It is therefore important to record the size bought and a structured fit vote with each review (FR43).}
+
+\subsection{Reporting}
+Acting as the central intelligence hub, \emph{Reporting} aggregates three inward flows: sales data from \emph{Payment}, stock status from \emph{Update Inventory}, and reverse-logistics information from \emph{Return/Exchange}. This consolidated data enables the business to analyse high return rates, reorder fast-selling sizes, or discount slow-moving stock at the end of a season.
+
+% ---------------------------------------------------------------------
+\section{Information Analysis}
+\label{sec:information}
+Information is the central resource of the proposed information system. This section identifies the information that is produced, consumed, stored, and exchanged.
+
+\begin{table}[H]
+\centering
+\small
+\caption{Information produced, consumed, and stored}
+\label{tab:infoclasses}
+\begin{tabularx}{\textwidth}{@{}Y Y Y@{}}
+\toprule
+\textbf{Information Produced} & \textbf{Information Consumed} & \textbf{Information Stored} \\ \midrule
+\begin{itemize}[leftmargin=*,nosep,before=\vspace{-\baselineskip}]
+ \item Order confirmation (per SKU/variant)
+ \item Invoice
+ \item Sales report (by product, variant, collection)
+ \item Inventory report (by SKU/variant)
+ \item Shipping notification
+ \item Return/exchange confirmation
+ \item Style/size recommendation (from the customer's saved profile)
+\end{itemize}
+&
+\begin{itemize}[leftmargin=*,nosep,before=\vspace{-\baselineskip}]
+ \item Product information (style, size chart, variant attributes)
+ \item Customer information (profile, saved sizes)
+ \item Inventory information (variant-level stock)
+ \item Payment information
+ \item Shipping information
+ \item Return reason and condition information
+\end{itemize}
+&
+\begin{itemize}[leftmargin=*,nosep,before=\vspace{-\baselineskip}]
+ \item Customer information
+ \item Product information (style plus size, colour, SKU, price)
+ \item Order information
+ \item Payment information
+ \item Inventory information (variant-level)
+ \item Shipment information
+ \item Review information (incl.\ size/fit feedback)
+ \item Return/exchange information
+\end{itemize}
+\\ \bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Information Catalogue}
+Table~\ref{tab:infocatalogue} shows who produces each major information item and who uses it, and for what purpose.
+
+\begin{xltabular}{\textwidth}{@{}L{3.4cm} L{4.2cm} Y@{}}
+\caption{Information catalogue for ABC Fashion}\label{tab:infocatalogue}\\
+\toprule
+\textbf{Information} & \textbf{Produced By} & \textbf{Used By / Purpose} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Information} & \textbf{Produced By} & \textbf{Used By / Purpose} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Product Information & Merchandiser / Administrator & Customer (product browsing and size selection) \\
+Customer Information & Customer & Sales / Customer Service Staff (order processing and personalisation) \\
+Order Information & Customer / System & Warehouse Staff (order fulfilment) \\
+Inventory Information & Warehouse Staff / System & Merchandiser / Warehouse Staff (stock and reorder management) \\
+Payment Information & Payment Provider & Order processing (payment confirmation) \\
+Return/Exchange Information & Customer / Warehouse Staff & Customer Service / Warehouse Staff (return authorisation and restocking decisions) \\
+Sales Information & System & Manager / Merchandiser (decision support: reordering, promotions) \\
+\R Review Information & \R Customer; checked by the system and Customer Service Staff & \R Customers and the AI assistant (product insight, fit consensus); Merchandiser (quality issues) \\
+\end{xltabular}
+
+\subsection{\upd{Preliminary Data Entities}}
+\label{subsec:entities}
+\begin{updated}
+The information items above are stored as the entities in Table~\ref{tab:entities}. This preliminary model fixes the level of detail required by the problems (variant-level stock, structured reviews) and is refined into a full entity--relationship model in Chapter~\ref{ch:design} (Section~\ref{sec:datamodel}).
+
+\begin{xltabular}{\textwidth}{@{}L{3cm} Y L{3.6cm}@{}}
+\caption{Preliminary data entities}\label{tab:entities}\\
+\toprule
+\textbf{Entity} & \textbf{Key attributes} & \textbf{Why it matters} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Entity} & \textbf{Key attributes} & \textbf{Why it matters} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Collection & id, name, season & Groups styles for seasonal planning \\
+Style (product) & id, name, category, description, material composition (\%), fit type, care, size chart, status & Catalogue facts shown to customers and used by the assistant \\
+Variant (SKU) & sku, style, size, colour, price, stock & Unit of ordering and inventory (P1) \\
+Customer & id, profile, saved sizes, consent & One record per customer (P6) \\
+Order / order line & order id, customer, status, payment status; line: sku, quantity, price & Variant-level ordering, split shipments \\
+Payment & transaction reference, method, status & Link to the external provider \\
+Shipment & order, carrier, tracking status & Delivery and return pickup \\
+Return request & order line, reason, resolution, inspection result, status & Standardised return flow (P3) \\
+Review & id, style, sku or size bought, fit vote, rating, text, verified purchase, origin, moderation status & Product insight and fit consensus (Chapter~\ref{ch:ai}) \\
+Stock movement & sku, quantity change, reason (sale, return, restock, adjustment), user, time & Audit (FR38) and no double counting (NFR11) \\
+Promotion & code, rule, validity & Discounts (FR21, FR33) \\
+\end{xltabular}
+\end{updated}
+
+% ---------------------------------------------------------------------
+\section{Current Problems}
+\label{sec:problems}
+
+\subsection{Problem Identification}
+Building on the case description and the fashion-specific activities analysed above, six significant problems were identified in ABC Fashion's current information practices (Table~\ref{tab:problems}). Each problem is given an identifier (P1--P6) that is used for traceability throughout the essay.
+
+\begin{xltabular}{\textwidth}{@{}l L{3.9cm} L{4.0cm} Y@{}}
+\caption{Current problems, causes, and consequences}\label{tab:problems}\\
+\toprule
+\textbf{ID} & \textbf{Problem} & \textbf{Possible Cause} & \textbf{Consequence} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Problem} & \textbf{Possible Cause} & \textbf{Consequence} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+P1 & Unclear and inaccurate inventory & Manual, style-level stock updates & Cancelled or delayed orders \\
+P2 & Inconsistent product information & Lack of shared data standards for styles and variants & Mismatched purchases \\
+P3 & Slow returns and exchanges & No standardised digital process & Delayed refunds and unhappy customers \\
+P4 & Slow order-status updates and order processing & Disconnected systems & Frequent customer inquiries \\
+P5 & Slow, manual reporting and decision support & Manual data collection & Delayed management decisions \\
+P6 & Unordered and duplicated customer data & Isolated records & Fragmented customer experience \\
+\end{xltabular}
+
+\subsection{Root Causes}
+Across all six problems, two root causes recur:
+\begin{itemize}
+  \item \textbf{C1 --- Manual maintenance and product updates.} Most data that varies by size or colour --- stock levels and, in some cases, descriptive content --- is still maintained manually and often only at the style level, not at the level of the individual sellable variant.
+  \item \textbf{C2 --- Fragmented and disconnected data.} Information about the same order or customer is spread across separate tools (spreadsheets, order records, marketing lists) rather than held in one integrated system, so no single, current view of a customer, order, or item exists.
+\end{itemize}
+
+\subsection{Consequences}
+The consequences fall into three groups: (1) a \textbf{reduced customer experience} --- mismatched purchases, unclear order status, and slow returns; (2) \textbf{additional costs} --- cancelled orders, refund and reverse-logistics costs, and unsold or misallocated stock at season end; and (3) \textbf{delayed decision-making} by merchandising and management staff, who lack timely visibility into which sizes, colours, and styles are performing well or poorly.
+
+\subsection{Problem Tree}
+Figure~\ref{fig:problemtree} summarises the analysis. The two root causes feed three groups of problems --- \emph{inventory and product management problems} (P1, P2), \emph{orders and returns problems} (P3, P4), and \emph{reporting and customer data problems} (P5, P6) --- which converge on a single core problem, \textbf{ineffective information management}. That core problem in turn produces the three groups of consequences described above.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\linewidth]{problem_tree.png}
+\caption{Problem tree for ABC Fashion's e-commerce operations}
+\label{fig:problemtree}
+\end{figure}
+
+\subsection{\upd{Opportunities for Artificial Intelligence}}
+\label{subsec:aiopp}
+\begin{updated}
+The root causes in Figure~\ref{fig:problemtree} are manual and fragmented \emph{data}. AI cannot repair missing or inconsistent data, so the integrated information system comes first. Once the system holds clean variant-level data and structured reviews, AI can reduce several problems further (Table~\ref{tab:aiopp}). Chapter~\ref{ch:ai} evaluates these options and selects one to implement.
+
+\begin{xltabular}{\textwidth}{@{}L{1.4cm} L{4.6cm} Y@{}}
+\caption{AI opportunities per problem}\label{tab:aiopp}\\
+\toprule
+\textbf{Problem} & \textbf{AI opportunity} & \textbf{Precondition in the information system} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Problem} & \textbf{AI opportunity} & \textbf{Precondition in the information system} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+P1 & Demand forecasting per variant & Clean variant-level sales and stock history \\
+P2 & Smarter search; product insight from descriptions and reviews (chatbot) & Complete catalogue fields; moderated reviews \\
+P3 & Fit consensus and size recommendation & Reviews with size bought and fit vote; return reasons \\
+P4 & Customer-service chatbot for order status & Integrated, real-time order and shipment data \\
+P5 & Automated analytics, customer behaviour analysis & Consolidated sales, customer and return data \\
+P6 & Customer segmentation and personalisation & De-duplicated customer records with consent \\
+\end{xltabular}
+\end{updated}
+
+% ---------------------------------------------------------------------
+\section{Proposed Information System}
+\label{sec:proposal}
+
+\subsection{System Purpose}
+Based on the investigation above, an E-Commerce Information System is proposed for ABC Fashion. Its purpose is to support the full customer journey from product discovery to delivery and returns, with particular emphasis on maintaining accurate, variant-level (size/colour) product and inventory data, and on streamlining the return/exchange cycle that is central to fashion retail.
+
+\subsection{System Scope}
+The proposed system is expected to support the following functions:
+\begin{itemize}
+  \item Customer management (profiles, saved sizes and preferences);
+  \item Product/catalogue management, including size and colour variants;
+  \item Shopping cart;
+  \item Order management at the variant level, including split shipments;
+  \item Inventory management at the variant (SKU) level;
+  \item Return and exchange management;
+  \item Promotion management;
+  \item Review management (including size/fit feedback);
+  \item Reporting (sales, inventory, and returns by product, variant, and collection);
+  \item \upd{an AI review-insight assistant that answers customers' questions about a product from its description and approved reviews (Chapter~\ref{ch:ai}).}
+\end{itemize}
+
+\subsection{System Boundary}
+\begin{table}[H]
+\centering
+\caption{Preliminary system boundary}
+\label{tab:boundary}
+\begin{tabularx}{\textwidth}{@{}Y Y@{}}
+\toprule
+\textbf{Inside the System} & \textbf{External Systems} \\ \midrule
+Customer management & Payment gateway (payment processing itself) \\
+Product/catalogue management (styles and variants) & Shipping/logistics provider (physical delivery and return pickup) \\
+Shopping cart & Supplier/brand systems (upstream manufacturing and supply) \\
+Order management & External notification service (email/SMS delivery) \\
+Inventory management (variant-level) & \\
+Return \& exchange management & \\
+Promotion and review management & \\
+Reporting & \\
+\R AI review-insight assistant (prompting, grounding, review summary) & \R Language-model runtime (local model server, or a cloud API under a data-processing agreement) \\ \bottomrule
+\end{tabularx}
+\end{table}
+
+The boundary places inside the system the data and logic specific to ABC Fashion's own retail operation --- its catalogue, orders, variant-level stock, and returns --- while delegating specialised, regulated, or third-party-operated functions (payment processing, physical delivery and pickup, upstream manufacturing and supply) to established external providers. This keeps the system focused on the business's own information problems rather than duplicating capabilities that external partners already provide reliably.
+
+\subsection{Context Diagram}
+Figure~\ref{fig:context} presents the context of the proposed system, showing its major external entities and the system boundary.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\linewidth]{context_diagram.png}
+\caption{System context diagram for ABC Fashion}
+\label{fig:context}
+\end{figure}
+
+\subsection{Information Flows}
+\begin{itemize}
+  \item \textbf{Customer $\rightarrow$ System:} registration and login information; product and size search; shopping-cart information; order information; return/exchange request; review and fit feedback.
+  \item \textbf{System $\rightarrow$ Customer:} product and size-chart information; order confirmation; payment status; order status; shipping and return status.
+  \item \textbf{System $\rightarrow$ Payment Service:} payment request; transaction information.
+  \item \textbf{Payment Service $\rightarrow$ System:} payment result; transaction status.
+  \item \textbf{System $\rightarrow$ Shipping Provider:} outbound shipment request; return-pickup request.
+  \item \textbf{Shipping Provider $\rightarrow$ System:} delivery status; return pickup and inspection status.
+  \item \textbf{System $\rightarrow$ Supplier:} restock/reorder request by style and size.
+  \item \textbf{Supplier $\rightarrow$ System:} restock confirmation and supply status.
+  \item \textbf{System $\rightarrow$ Administrator/Staff:} sales, inventory, and return reports.
+  \item \textbf{Administrator/Staff $\rightarrow$ System:} catalogue updates; inventory adjustments; promotion setup.
+\end{itemize}
+
+\subsection{System Objectives}
+\label{subsec:objectives}
+\begin{enumerate}[label=\textbf{O\arabic*.},leftmargin=1.1cm]
+  \item Maintain accurate, variant-level (size and colour) product and inventory information across the catalogue.
+  \item Provide customers with reliable size/fit information and style-based browsing and search.
+  \item Support electronic shopping-cart and order processing at the specific size/colour ordered, including handling of partial availability.
+  \item Provide customers with clear order, shipping, and return/exchange status information.
+  \item Streamline and partly automate the return and exchange process to reduce processing time and cost.
+  \item Provide management and merchandising staff with timely sales, inventory, and return reports at product, variant, and collection level.
+  \item Support secure integration with external payment and shipping/logistics providers.
+  \item \upd{Help customers choose the right product and size with objective, review-based product insight supported by AI (Chapter~\ref{ch:ai}).}
+\end{enumerate}
+
+\begin{updated}
+\textbf{SMART targets.} In Version~1 the objectives were not measurable. Table~\ref{tab:smart} links each objective to the indicators of Section~\ref{subsec:kpis} and proposes a target. The values are proposals; they must be confirmed with ABC Fashion's management once the baselines have been measured (assumption A3).
+
+\begin{xltabular}{\textwidth}{@{}l L{2.4cm} Y L{2.6cm}@{}}
+\caption{Measurable targets for the system objectives (proposed)}\label{tab:smart}\\
+\toprule
+\textbf{Obj.} & \textbf{Indicator} & \textbf{Proposed target} & \textbf{Time frame} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Obj.} & \textbf{Indicator} & \textbf{Proposed target} & \textbf{Time frame} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+O1 & K1, K2 & Stock accuracy $\geq$ 98\%; stock-out cancellations $<$ 1 per 100 orders & 6 months after go-live \\
+O2 & Catalogue completeness & 100\% of published styles have composition, size chart and care instructions & Before go-live \\
+O3 & NFR02, NFR10 & Checkout $\leq$ 5 s; no order confirmed for an out-of-stock variant & At go-live \\
+O4 & K5 & Order-status inquiries reduced by 30\% against the baseline & 6 months after go-live \\
+O5 & K4 & Return cycle time $\leq$ 5 working days & 3 months after go-live \\
+O6 & K6 & Weekly report produced automatically in under 1 hour & At go-live \\
+O7 & Integration errors & $<$ 0.5\% of payment or shipment messages fail & At go-live \\
+O8 & K3, NFR15 & Size-related share of returns reduced by 10\% against the baseline; no unsupported claim in the assistant's acceptance tests & 12 months after go-live \\
+\end{xltabular}
+The 10\% target for O8 is set to match the reduction Zalando reports for items with size advice \cite{zalando_size}, which is a plausible order of magnitude rather than a guarantee.
+\end{updated}
+
+% ---------------------------------------------------------------------
+\section{Stakeholder Goals and Needs}
+\label{sec:needs}
+This section starts from the stakeholders identified in Section~\ref{sec:stakeholders} and analyses their goals, needs, and expectations of the proposed system. The needs identified here are the bridge between the business problems of Section~\ref{sec:problems} and the system requirements of Chapter~\ref{ch:analysis}.
+
+\subsection{Stakeholder Goals}
+\begin{xltabular}{\textwidth}{@{}L{4cm} Y@{}}
+\caption{Stakeholder goals}\label{tab:goals}\\
+\toprule
+\textbf{Stakeholder} & \textbf{Goal} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Stakeholder} & \textbf{Goal} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Customer & Shop confidently across accurate size/colour options, and receive reliable delivery and easy returns. \\
+Administrator & Keep the catalogue, accounts, and system configuration consistent and correct. \\
+Merchandiser / Buyer & Plan seasonal collections and sizing based on trustworthy, variant-level sales and stock data. \\
+Sales Staff & Verify and process customer orders quickly and accurately. \\
+Warehouse Staff & Keep variant-level stock accurate and handle returns efficiently. \\
+Customer Service Staff & Resolve customer issues quickly with full visibility of order and return history. \\
+Marketing Staff & Run effective, well-targeted seasonal promotions. \\
+Manager & Make timely, informed business decisions. \\
+Supplier & Receive accurate, timely restock demand by style and size. \\
+Payment Provider & Process secure, correctly linked customer transactions. \\
+Shipping Provider & Receive accurate delivery and return-pickup instructions. \\
+\end{xltabular}
+
+\subsection{Stakeholder Needs}
+Table~\ref{tab:needs} lists \upd{seventeen} stakeholder needs (\upd{SN01--SN17}), each grounded in the problems and activities analysed above and linked to the problem(s) it addresses. This exceeds the required minimum of ten needs. \upd{SN16 and SN17 are new in Version~2; they come from the AI analysis of Chapter~\ref{ch:ai}.}
+
+\begin{xltabular}{\textwidth}{@{}l L{2.5cm} Y Y l@{}}
+\caption{Stakeholder needs}\label{tab:needs}\\
+\toprule
+\textbf{ID} & \textbf{Stakeholder} & \textbf{Need} & \textbf{Reason} & \textbf{Problem} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Stakeholder} & \textbf{Need} & \textbf{Reason} & \textbf{Problem} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+SN01 & Customer & View accurate size/colour availability before ordering & Mismatched purchases occur when variant-level information is unreliable & P1, P2 \\ \addlinespace
+SN02 & Customer & Track order and return/exchange status in real time & Customers currently experience unclear order status and slow returns & P3, P4 \\ \addlinespace
+SN03 & Customer & Submit and view size/fit feedback on products & Helps future buyers choose the right size and reduces mismatched purchases & P2 \\ \addlinespace
+SN04 & Customer & Request an exchange or return quickly and easily & Slow returns/exchanges lead to delayed refunds and unhappy customers & P3 \\ \addlinespace
+SN05 & Administrator & Maintain a single, consistent view of product and variant data & Inconsistent product information arises from a lack of shared standards & P2 \\ \addlinespace
+SN06 & Merchandiser / Buyer & Access reliable, variant-level sales and stock data & Needed to plan collections and sizes; currently hampered by manual, style-level tracking & P1, P5 \\ \addlinespace
+SN07 & Sales Staff & View real-time, variant-level order and stock information & Needed to verify orders accurately; disconnected systems slow status updates & P4 \\ \addlinespace
+SN08 & Warehouse Staff & See accurate stock levels per size/colour variant, updated in real time & Manual, style-level inventory updates cause inaccurate inventory & P1 \\ \addlinespace
+SN09 & Warehouse Staff & Process returns and exchanges through a standardised workflow & Slow returns are caused by having no standardised digital process & P3 \\ \addlinespace
+SN10 & Customer Service Staff & Access a unified view of customer, order, and return history & Isolated and duplicated customer records fragment the customer experience & P6 \\ \addlinespace
+SN11 & Marketing Staff & Access reliable sales data by product/variant to target promotions & Needed for planning promotions and reducing ageing stock & P5, P6 \\ \addlinespace
+SN12 & Manager & Obtain timely, consolidated reports on sales, inventory, and returns & Manual data collection currently delays management decisions & P5 \\ \addlinespace
+SN13 & Supplier & Receive accurate, timely restock requests by style and size & Needed for reliable supply planning & P1 \\ \addlinespace
+SN14 & Shipping Provider & Receive accurate delivery and return-pickup requests linked to order/variant data & Supports correct delivery and reverse-logistics handling & P3, P4 \\ \addlinespace
+SN15 & Payment Provider & Receive secure payment requests correctly linked to each order, and return a verifiable result & Every order must carry a reliable payment status before fulfilment & P4 \\ \addlinespace
+\R SN16 & \R Customer & \R Get an objective summary of a product --- catalogue facts, how it fits, what other customers say --- and ask questions about it before buying & \R Inconsistent information and size uncertainty cause mismatched purchases and size-related returns; reading many reviews takes time & \R P2, P3 \\ \addlinespace
+\R SN17 & \R Customer Service Staff & \R Have submitted reviews checked automatically, so that only suspicious ones need manual moderation & \R Manual moderation does not scale; unchecked reviews would pass wrong information to customers and to the AI assistant & \R P2 \\
+\end{xltabular}
+
+\subsection{Stakeholder--Need Analysis}
+The needs cluster around the same themes revealed by the problem tree (Figure~\ref{fig:problemtree}):
+\begin{enumerate}
+  \item \textbf{Variant-level product and inventory accuracy} (SN01, SN05, SN06, SN08, SN13) --- needed by Administrators, Merchandisers, Warehouse Staff, Customers and Suppliers to prevent mismatched purchases and stock errors.
+  \item \textbf{A streamlined, standardised return and exchange cycle} (SN02, SN04, SN09, SN14) --- needed by Customers, Warehouse Staff, Customer Service Staff and the Shipping Provider.
+  \item \textbf{A single, unified view of customer, order, and product data} (SN07, SN10, SN11, SN15) --- needed by Customer Service, Sales and Marketing Staff, and by the Payment Provider, to remove the fragmentation caused by disconnected tools.
+  \item \textbf{Timely, consolidated reporting} (SN06, SN11, SN12) --- needed by Managers, Merchandisers and Marketing Staff for decision-making.
+\end{enumerate}
+Customer-facing quality needs (SN03) cut across themes 1 and 2, since size/fit feedback both improves product information and reduces returns. External stakeholders (Supplier, Payment Provider, Shipping Provider) need accurate, correctly linked data flowing out of the same variant-level and order records. These four themes directly motivate the functional-requirement categories defined in Chapter~\ref{ch:analysis}. \upd{The two new needs add a fifth theme, \textbf{trustworthy product insight}: customers want the evidence in descriptions and reviews condensed for them (SN16), which only works if the reviews themselves are clean (SN17). This theme motivates the AI Assistant requirements FR39--FR45.}
+
+\section{Chapter Summary}
+Chapter~1 established that ABC Fashion's core information problems stem from managing a large number of size/colour variants and a high volume of returns without an integrated system. Six problems (P1--P6) were traced to two root causes and summarised in a problem tree; eleven stakeholders were identified; the information produced, consumed, and stored was catalogued; and a preliminary system was defined through its purpose, scope, boundary, context diagram, information flows, and seven objectives (O1--O7). Finally, fifteen stakeholder needs (SN01--SN15) were derived. These needs are the starting point for the requirements analysis in Chapter~\ref{ch:analysis}. \upd{Version~2 added the elicitation approach and four assumptions, eight performance indicators, a stakeholder power/interest grid, a preliminary data model, an analysis of AI opportunities per problem, SMART targets for the objectives together with a new objective (O8), and two new needs (SN16, SN17), bringing the total to seventeen.}
+
+% =====================================================================
+\chapter{Requirements Analysis}
+\label{ch:analysis}
+
+This chapter transforms the stakeholder needs of Chapter~\ref{ch:identification} into a formal set of system requirements and a use-case model. It answers the central question: \emph{what must the E-Commerce Information System do?} The chapter defines functional requirements (Section~\ref{sec:fr}) and non-functional requirements (Section~\ref{sec:nfr}), prioritises them (Section~\ref{sec:moscow}), identifies actors (Section~\ref{sec:actors}) and use cases (Section~\ref{sec:ucmodel}), specifies five key use cases in detail (Section~\ref{sec:ucspec}), and finally traces (Section~\ref{sec:trace}) and validates (Section~\ref{sec:validation}) the result. \upd{Version~2 adds the requirements, use cases and a full specification for the AI review-insight assistant selected in Chapter~\ref{ch:ai}: FR39--FR45, NFR13--NFR16 and UC32--UC34.}
+
+% ---------------------------------------------------------------------
+\section{Functional Requirements}
+\label{sec:fr}
+
+\subsection{Requirement Categories}
+Functional requirements are organised into \upd{fourteen} categories (Table~\ref{tab:frcat}). The standard e-commerce categories are extended with a dedicated \emph{Returns \& Exchanges} category, because return/exchange handling is a defining, high-volume activity for ABC Fashion (Sections~\ref{subsec:shipping} and~\ref{sec:problems}).
+
+\begin{xltabular}{\textwidth}{@{}L{4.2cm} Y@{}}
+\caption{Functional requirement categories}\label{tab:frcat}\\
+\toprule
+\textbf{Category} & \textbf{Description} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Category} & \textbf{Description} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+User Account Management & Registration, authentication, and profile/preferences for customers and staff. \\
+Product Management & Maintaining styles and their size/colour variants (SKUs), size charts, and collections. \\
+Product Search and Browsing & Helping customers find products and see accurate, variant-level availability. \\
+Shopping Cart & Selecting variants and preparing an order before checkout. \\
+Order Management & Creating, validating, tracking, and fulfilling orders at the variant level. \\
+Payment & Processing payments and applying promotions. \\
+Inventory Management & Tracking and adjusting stock at the size/colour variant level, and reordering. \\
+Shipping & Coordinating outbound delivery with the shipping provider. \\
+Returns \& Exchanges & Handling the reverse-logistics cycle that is central to fashion retail. \\
+Reviews & Collecting product feedback, including size/fit feedback. \\
+Promotions & Creating and applying seasonal discounts and campaigns. \\
+Reporting & Producing sales, inventory, and return information for decision-making. \\
+Administration & System-level account and audit management. \\
+\R AI Assistant & \R Answering customers' questions about one product from its description and reviews, with every statement checked against stored data. \\
+\end{xltabular}
+
+\subsection{Functional Requirement Catalogue}
+\upd{Forty-five} functional requirements are specified in Table~\ref{tab:fr}, exceeding the required minimum of twenty. \upd{FR39--FR45 are new in Version~2.} Priority uses the MoSCoW scale defined in Section~\ref{sec:moscow} (M = Must, S = Should, C = Could). The \emph{Source} column links each requirement to the stakeholder need(s) of Table~\ref{tab:needs} from which it is derived.
+
+{\small
+\begin{xltabular}{\textwidth}{@{}l L{1.7cm} Y c L{1.55cm}@{}}
+\caption{Functional requirement catalogue}\label{tab:fr}\\
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Requirement} & \textbf{Pr.} & \textbf{Source} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Requirement} & \textbf{Pr.} & \textbf{Source} \\ \midrule
+\endhead
+\midrule \multicolumn{5}{r}{\footnotesize\emph{continued on next page}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+FR01 & Account & The system shall allow customers to register an account using an email address and password. & M & SN10 \\
+FR02 & Account & The system shall allow customers and staff to log in and log out securely, with role-based access. & M & SN10 \\
+FR03 & Account & The system shall allow customers to manage their profile, including saved sizes, colours, and shipping addresses. & M & SN01, SN10 \\
+FR04 & Product & The system shall allow administrators and merchandisers to create, update, and deactivate product styles, and organise them into seasonal collections. & M & SN05 \\
+FR05 & Product & The system shall allow administrators and merchandisers to define size/colour variants (SKUs) for each style, including price, images, and size-chart information. & M & SN01, SN05 \\
+FR06 & Search & The system shall allow customers to browse products by category, collection, size, and colour. & M & SN01 \\
+FR07 & Search & The system shall allow customers to search for products by keyword, style, size, or colour. & M & SN01 \\
+FR08 & Search & The system shall display, for each product, the current availability of every size/colour variant. & M & SN01 \\
+FR09 & Search & The system shall display style/size recommendations generated from the customer's saved profile. & C & SN01 \\
+FR10 & Cart & The system shall allow customers to add a specific size/colour variant to a shopping cart. & M & SN01 \\
+FR11 & Cart & The system shall allow customers to update the quantity of, or remove, items in the shopping cart. & M & SN01 \\
+FR12 & Cart & The system shall calculate the total value of the shopping cart, including any active promotion. & M & SN01, SN11 \\
+FR13 & Order & The system shall allow customers to place an order for one or more product variants. & M & SN07 \\
+FR14 & Order & The system shall validate the availability of each ordered size/colour variant before confirming the order. & M & SN01, SN08 \\
+FR15 & Order & The system shall support split shipments when an order cannot be fully fulfilled from a single stock location. & S & SN07, SN14 \\
+FR16 & Order & The system shall allow customers to view current order and shipment status. & M & SN02 \\
+FR17 & Order & The system shall allow customers to cancel an order before it has shipped. & S & SN02 \\
+FR18 & Order & The system shall allow sales staff to verify and process submitted orders. & M & SN07 \\
+FR19 & Payment & The system shall allow customers to select a payment method and submit payment at checkout. & M & SN15 \\
+FR20 & Payment & The system shall record payment status and a transaction reference for each order. & M & SN15 \\
+FR21 & Payment & The system shall apply a valid promotion or discount code to an eligible order before payment is processed. & S & SN11 \\
+FR22 & Inventory & The system shall update stock at the specific size/colour variant level immediately after a confirmed order. & M & SN08 \\
+FR23 & Inventory & The system shall allow warehouse staff to view and manually adjust variant-level stock levels. & M & SN08 \\
+FR24 & Inventory & The system shall generate restock/reorder requests to suppliers by style and size. & S & SN13 \\
+FR25 & Shipping & The system shall generate a shipment request to the shipping provider for each confirmed order. & M & SN14 \\
+FR26 & Shipping & The system shall record delivery-status updates received from the shipping provider. & S & SN02, SN14 \\
+FR27 & Returns & The system shall allow customers to submit a return or exchange request, including a reason and desired resolution. & M & SN04 \\
+FR28 & Returns & The system shall allow warehouse and customer service staff to authorise, inspect, and process return/exchange requests. & M & SN09 \\
+FR29 & Returns & The system shall increase variant-level stock when a returned item passes quality inspection. & M & SN08, SN09 \\
+FR30 & Returns & The system shall notify customers of return/exchange status changes and refund confirmation. & S & SN02 \\
+FR31 & Reviews & The system shall allow customers to submit product reviews and ratings, including size/fit feedback. & S & SN03 \\
+FR32 & Reviews & The system shall allow customer service staff to moderate submitted reviews. & C & SN03 \\
+FR33 & Promotions & The system shall allow marketing staff to create and manage seasonal promotions and discount codes. & S & SN11 \\
+FR34 & Reporting & The system shall generate sales reports by product, variant, and collection. & M & SN06, SN12 \\
+FR35 & Reporting & The system shall generate inventory reports at the variant (SKU) level. & M & SN06, SN12 \\
+FR36 & Reporting & The system shall generate return/exchange reports summarising return rates and reasons. & S & SN12 \\
+FR37 & Admin & The system shall allow administrators to manage customer accounts (e.g., suspend, reset password). & S & SN10 \\
+FR38 & Admin & The system shall maintain an audit log of catalogue and inventory changes made by staff. & C & SN05, SN08 \\
+\R FR39 & \R Assistant & \R The system shall allow customers to ask the assistant a question about a specific product from its product page and show the answer on the same page. & \R S & \R SN16 \\
+\R FR40 & \R Assistant & \R The system shall present each answer in four blocks --- catalogue facts, size and fit, customer-review summary, assistant's assessment --- and shall generate the first three only from stored catalogue and review data. & \R S & \R SN16 \\
+\R FR41 & \R Reviews & \R The system shall summarise the approved reviews of a product: count, average rating, distribution, verified share and, from five reviews, positive and negative mentions per aspect, each traceable to review IDs. & \R S & \R SN03, SN16 \\
+\R FR42 & \R Reviews & \R The system shall compute a fit consensus from fit votes and give size advice only when at least five votes exist and one answer has a share of at least 60\%. & \R S & \R SN16 \\
+\R FR43 & \R Reviews & \R The system shall let customers record the size purchased and a fit vote (runs small / true to size / runs large) with a review. & \R S & \R SN03, SN16 \\
+\R FR44 & \R Reviews & \R The system shall check submitted reviews automatically with rules and hold suspicious ones (advertising, personal data, abusive text, instructions aimed at the assistant) for customer service staff. & \R S & \R SN17 \\
+\R FR45 & \R Assistant & \R The system shall remove from the assistant's answer every statement not supported by the catalogue or the review summary (prices, stock, fit, fabric, popularity, policy and health claims) and log each removal. & \R M & \R SN16 \\
+\end{xltabular}
+}
+
+% ---------------------------------------------------------------------
+\section{Non-Functional Requirements}
+\label{sec:nfr}
+\upd{Sixteen} non-functional requirements are specified, exceeding the required minimum of ten. \upd{NFR13--NFR16 are new in Version~2 and apply to the AI assistant.} They cover all eight mandatory quality categories --- Performance, Security, Usability, Availability, Reliability, Scalability, Maintainability, and Data Integrity --- plus Compatibility. The rationale for each category in the ABC Fashion context is given first, followed by the complete catalogue with a verification method for every requirement.
+
+\subsection{Rationale by Category}
+\begin{description}[leftmargin=0pt,itemsep=2pt]
+  \item[Performance.] Customers browse large catalogues with many variants; slow search or checkout directly causes abandoned carts (NFR01, NFR02).
+  \item[Security.] Customer profiles and payment data must be protected, and card processing is delegated to the external Payment Service (NFR03, NFR04).
+  \item[Usability.] Consistent size-chart and variant-selection controls reduce selection errors and therefore size-related returns (NFR05).
+  \item[Availability.] The website/app is the only sales channel, so downtime means zero sales, especially during seasonal sales (NFR06).
+  \item[Reliability.] Confirmed orders and payments must never be lost (NFR07).
+  \item[Scalability.] Flash sales and seasonal launches create sharp traffic peaks (NFR08).
+  \item[Maintainability.] Collections and variant attributes change every season (NFR09).
+  \item[Data Integrity.] Variant-level stock is the core of problem P1 and must never be oversold or double-counted (NFR10, NFR11).
+  \item[Compatibility.] Customers use both the website and the mobile app (NFR12).
+  \item[\upd{AI assistant.}] \upd{A language model is slow and can state things that are not true. Its answers must arrive quickly enough to be read on a product page, must still come when the model fails, must contain no unsupported claim, and must not expose personal data (NFR13--NFR16).}
+\end{description}
+
+\subsection{Non-Functional Requirement Catalogue}
+{\small
+\begin{xltabular}{\textwidth}{@{}l L{1.9cm} Y L{3.6cm}@{}}
+\caption{Non-functional requirement catalogue}\label{tab:nfr}\\
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Requirement} & \textbf{Verification Method} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Requirement} & \textbf{Verification Method} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+NFR01 & Performance & Normal product search and catalogue browsing shall return results within 3 seconds under normal operating conditions. & Load test with a representative catalogue; measure response time. \\
+NFR02 & Performance & Checkout, from cart submission to order confirmation, shall complete within 5 seconds under normal operating conditions. & End-to-end timing test of the checkout flow. \\
+NFR03 & Security & Only authenticated customers shall be able to access their own personal order, profile, and payment information. & Access-control test: attempt to read another customer's data. \\
+NFR04 & Security & Payment data shall be transmitted to the payment provider over an encrypted (TLS) channel; the system shall not store full card numbers. & Security review of traffic and database inspection. \\
+NFR05 & Usability & Size-chart and variant-selection controls shall follow a consistent layout across all product and catalogue pages. & UI review against a usability checklist. \\
+NFR06 & Availability & The system shall be available at least 99.5\% of scheduled business hours, including seasonal sale periods. & Uptime monitoring over a measurement period. \\
+NFR07 & Reliability & Confirmed orders and payment records shall be preserved without loss even in the event of a system failure. & Crash-recovery / failover test. \\
+NFR08 & Scalability & The architecture shall support at least a five-fold increase in concurrent users during flash sales and seasonal launches without service degradation. & Stress test at 5$\times$ baseline concurrency. \\
+NFR09 & Maintainability & The system shall use modular components so that new product categories or variant attributes (e.g., material) can be added without redesigning the core system. & Architecture review; add a new attribute in a test build. \\
+NFR10 & Data Integrity & The system shall prevent an order from being confirmed when the requested size/colour variant is out of stock. & Integration test confirming an out-of-stock variant. \\
+NFR11 & Data Integrity & Variant-level stock updates originating from orders, returns, and restocking shall be applied consistently, with no double-counting. & Concurrency test and stock reconciliation. \\
+NFR12 & Compatibility & The system shall be accessible through both the ABC Fashion website and the companion mobile app with consistent, synchronised data. & Cross-channel test (web vs.\ app). \\
+\R NFR13 & \R Performance & \R The first sentence of an assistant answer shall appear within 5 seconds and the complete answer within 15 seconds (95th percentile) on the production hardware. & \R Timing over the acceptance question set. \\
+\R NFR14 & \R Availability & \R When the language model is unavailable, times out or returns invalid output, the assistant shall still answer from stored data (basic mode). & \R Fault-injection test (model off, invalid JSON, cut-off output). \\
+\R NFR15 & \R Data Integrity & \R No answer in the acceptance benchmark shall contain an unsupported claim about price, stock, fit, fabric, popularity or store policy. & \R Scenario benchmark with an independent audit (Chapter~\ref{ch:ai}). \\
+\R NFR16 & \R Security / Privacy & \R E-mail addresses, phone, card and ID numbers and street addresses shall be removed from reviews and questions before storage or model input; the model shall run on ABC Fashion's own server or under a data-processing agreement. & \R Unit tests of redaction; deployment review. \\
+\end{xltabular}
+}
+
+% ---------------------------------------------------------------------
+\section{Requirement Prioritisation}
+\label{sec:moscow}
+All functional and non-functional requirements are classified using the MoSCoW approach (Must / Should / Could / Won't Have). Table~\ref{tab:moscowsum} summarises the distribution.
+
+\begin{table}[H]
+\centering
+\caption{MoSCoW distribution of requirements}
+\label{tab:moscowsum}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Priority} & \textbf{Functional} & \textbf{Non-functional} & \textbf{Total} \\ \midrule
+Must Have & \upd{26} & \upd{8} & \upd{34} \\
+Should Have & \upd{16} & \upd{6} & \upd{22} \\
+Could Have & 3 & 2 & 5 \\ \midrule
+\textbf{Total} & \textbf{\upd{45}} & \textbf{\upd{16}} & \textbf{\upd{61}} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Must Have}
+Requirements the system cannot reasonably operate without --- account access, core catalogue and variant data, cart and checkout, order validation, payment, variant-level inventory updates, core returns processing, core reporting, and the security, reliability and data-integrity constraints that protect them.
+
+FR01, FR02, FR03, FR04, FR05, FR06, FR07, FR08, FR10, FR11, FR12, FR13, FR14, FR16, FR18, FR19, FR20, FR22, FR23, FR25, FR27, FR28, FR29, FR34, FR35, \upd{FR45}; NFR03, NFR04, NFR06, NFR07, NFR10, NFR11, \upd{NFR15, NFR16}.
+
+\upd{FR45, NFR15 and NFR16 are \emph{Must} because they protect customers: the assistant may only be switched on when they are met.}
+
+\subsection{Should Have}
+Important requirements that add significant value but without which the system could operate temporarily --- split shipments, order cancellation, promotions, restocking, delivery-status tracking, notifications, and secondary quality attributes.
+
+FR15, FR17, FR21, FR24, FR26, FR30, FR31, FR33, FR36, FR37, \upd{FR39, FR40, FR41, FR42, FR43, FR44}; NFR01, NFR02, NFR05, NFR08, \upd{NFR13, NFR14}.
+
+\subsection{Could Have}
+Useful requirements to implement if time and resources permit.
+
+FR09, FR32, FR38; NFR09, NFR12.
+
+\subsection{Won't Have (this phase)}
+The following are explicitly excluded from the current scope, consistent with the system boundary in Section~\ref{sec:proposal}:
+\begin{itemize}
+  \item \textbf{Multi-vendor marketplace support} (third-party sellers listing their own products) --- ABC Fashion is a single-vendor retailer.
+  \item \textbf{In-house payment gateway or card-processing engine} --- delegated to the external Payment Service (Table~\ref{tab:boundary}).
+  \item \textbf{A full AI-driven personalised styling/outfit recommendation engine} --- a basic saved-size/style recommendation (FR09) is included, while a complete AI engine is analysed in Chapter~3. \upd{Chapter~\ref{ch:ai} selects a review-insight assistant for this phase; a styling engine remains out of scope.}
+  \item \textbf{A loyalty-points or rewards-programme module} --- ABC Fashion's promotion model covers clearance, flash sales, and loyalty discounts only, not a points system.
+\end{itemize}
+
+% ---------------------------------------------------------------------
+\section{Actor Analysis}
+\label{sec:actors}
+An actor is an external role that interacts directly with the system. The UML model for ABC Fashion contains \textbf{eleven actors}: Customer, Payment Service, Shipping Provider, Ecommerce Staff, Merchandiser, Marketing Staff, Customer Service Staff, Administrator, Manager, Warehouse Staff, and Supplier. \emph{Ecommerce Staff} is an abstract, generalised base actor; Merchandiser, Marketing Staff, Customer Service Staff, and Administrator specialise it and inherit its shared staff behaviour (Figure~\ref{fig:ucfull}).
+
+Sales Staff, identified as a stakeholder in Chapter~\ref{ch:identification}, is listed in Table~\ref{tab:actors} for completeness. Its order-processing responsibilities (accessing submitted orders and supporting order processing, FR18) are carried out through the staff order-management workflow (\emph{Update Order Status}), so it is analysed in the requirements without being introduced as a separate actor in the UML diagram.
+
+{\small
+\begin{xltabular}{\textwidth}{@{}L{2.6cm} L{2.4cm} Y L{3.6cm}@{}}
+\caption{Actor analysis}\label{tab:actors}\\
+\toprule
+\textbf{Actor} & \textbf{Type} & \textbf{Interaction with the System} & \textbf{Why it is an Actor} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Actor} & \textbf{Type} & \textbf{Interaction with the System} & \textbf{Why it is an Actor} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Customer & Primary actor & Registers, browses, searches, orders, tracks, reviews, and requests returns/exchanges. & Main user and beneficiary of the e-commerce system. \\ \addlinespace
+Payment Service & External system & Links payment methods, confirms payment methods and transactions, and supports refunds. & External service used for payment interaction. \\ \addlinespace
+Shipping Provider & External system & Receives delivery details; provides delivery and return-pickup status. & External service involved in delivery and return logistics. \\ \addlinespace
+Ecommerce Staff & Generalised base actor & Represents behaviour shared by all staff roles. & Base actor for staff specialisations. \\ \addlinespace
+Merchandiser & Internal actor & Manages promotions and views system reports. & Specialised staff role for merchandising. \\ \addlinespace
+Marketing Staff & Internal actor & Views system reports and promotion-related information. & Specialised staff role for marketing. \\ \addlinespace
+Customer Service Staff & Internal actor & Manages reviews, views reports, and supports return/exchange processing. & Specialised staff role for customer service. \\ \addlinespace
+Administrator & Internal actor & Manages customer accounts, products/variants, and reviews. & Specialised staff role for administration. \\ \addlinespace
+Manager & Internal actor & Updates order status, processes returns/exchanges, cancels orders, manages products, and views shop reports. & Staff role for operational management. \\ \addlinespace
+Warehouse Staff & Internal actor & Manages variant-level inventory and inspects returned items. & Staff role for warehouse operations. \\ \addlinespace
+Supplier & External actor & Receives and confirms restock requests. & External party supporting inventory management. \\ \addlinespace
+Sales Staff & Stakeholder role (not in UML) & Accesses submitted orders and supports order processing via the staff workflow. & Considered in requirements; represented through \emph{Update Order Status}. \\
+\end{xltabular}
+}
+
+% ---------------------------------------------------------------------
+\section{Use Case Model}
+\label{sec:ucmodel}
+
+\subsection{Use Case Identification}
+\upd{Thirty-four} use cases are identified (Table~\ref{tab:uccat}), covering account management, product browsing and search, shopping cart and checkout, order management, payment, inventory, shipping, returns and exchanges, reviews, promotions, administration, and reporting. Use cases UC01--UC24 are user-goal use cases associated with actors; UC25--UC31 are sub-function use cases performed by the system or invoked through \texttt{<<include>>}/\texttt{<<extend>>}. Stable identifiers are used consistently in the specifications, coverage matrix, and traceability analysis. \upd{UC32--UC34 are new in Version~2. They add no new actor: the language model is an internal component of the system (or an external system if a cloud API is used, see Table~\ref{tab:boundary}).}
+
+{\small
+\begin{xltabular}{\textwidth}{@{}l L{1.9cm} Y L{4.6cm}@{}}
+\caption{Use case catalogue}\label{tab:uccat}\\
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Use Case} & \textbf{Associated Actor(s)} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{ID} & \textbf{Category} & \textbf{Use Case} & \textbf{Associated Actor(s)} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+UC01 & Account & Register Account & Customer \\
+UC02 & Account & Log In & Customer \\
+UC03 & Account & Manage Profile & Customer (Payment Service for linking) \\
+UC04 & Product & Browse Products & Customer \\
+UC05 & Product & Search Products & Customer \\
+UC06 & Product & View Product Details & Customer \\
+UC07 & Cart & Manage Shopping Cart & Customer \\
+UC08 & Order & Place Order / Checkout Cart & Customer (Payment Service, Shipping Provider) \\
+UC09 & Order & View Order Detail & Customer \\
+UC10 & Order & Cancel Request & Customer / Manager \\
+UC11 & Order & Track Order Status & Customer \\
+UC12 & Order & Confirm Received & Customer \\
+UC13 & Reviews & Submit Review & Customer \\
+UC14 & Returns & Request Return/Exchange & Customer \\
+UC15 & Promotion & Manage Promotion & Merchandiser \\
+UC16 & Reporting & View System Reports & Merchandiser, Marketing Staff, Customer Service Staff \\
+UC17 & Inventory & Manage Inventory & Warehouse Staff (Supplier) \\
+UC18 & Returns & Process Return/Exchange & Customer Service Staff, Warehouse Staff, Manager (Shipping Provider, Payment Service) \\
+UC19 & Reviews & Manage Reviews & Customer Service Staff, Administrator \\
+UC20 & Admin & Manage Customer Accounts & Administrator \\
+UC21 & Product & Manage Products / Variants & Administrator, Manager \\
+UC22 & Order & Update Order Status & Manager (Shipping Provider, Payment Service) \\
+UC23 & Order & Cancel Order & Manager \\
+UC24 & Reporting & View Shop Reports & Manager \\
+UC25 & Inventory & Update Inventory & System (sub-function) \\
+UC26 & Checkout & Apply Voucher & Customer (extends UC08) \\
+UC27 & Promotion & Edit Product Promotion & Merchandiser (included in UC15) \\
+UC28 & Order & Handle Split Shipment & System (sub-function) \\
+UC29 & Order & Validate Cart Availability & System (sub-function) \\
+UC30 & Order & Calculate Order Total & System (sub-function) \\
+UC31 & Payment & Confirm Payment Method & Payment Service (included in UC08) \\
+\R UC32 & \R Assistant & \R Ask Assistant about Product & \R Customer (extends UC06) \\
+\R UC33 & \R Reviews & \R Summarise Product Reviews & \R System (included in UC32 and UC06) \\
+\R UC34 & \R Reviews & \R Moderate Review Automatically & \R System (included in UC13) \\
+\end{xltabular}
+}
+\textit{Note.} Names are normalised in the text; the diagram labels ``Browser Products'' and ``Login customer'' correspond to UC04 \emph{Browse Products} and UC02 \emph{Log In}.
+
+\subsection{UML Use Case Diagrams}
+The model is presented as two overview diagrams (Figures~\ref{fig:ucgeneral} and~\ref{fig:ucfull}) and four detailed diagrams, each focusing on one functional area (Figures~\ref{fig:ucd1}--\ref{fig:ucd4}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.82\textwidth]{uc_general.png}
+\caption{General use case diagram --- top-level actors and use cases}
+\label{fig:ucgeneral}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{uc_full.png}
+\caption{Full detailed use case diagram, including staff generalisation and include/extend relationships}
+\label{fig:ucfull}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{uc_detail1.png}
+\caption{Detailed use case diagram 1 --- Account and profile management}
+\label{fig:ucd1}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{uc_detail2.png}
+\caption{Detailed use case diagram 2 --- Browsing, search, shopping cart, and checkout}
+\label{fig:ucd2}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{uc_detail3.png}
+\caption{Detailed use case diagram 3 --- Order management, reviews, and return/exchange}
+\label{fig:ucd3}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{uc_detail4.png}
+\caption{Detailed use case diagram 4 --- Administration, reports, order operations, and inventory}
+\label{fig:ucd4}
+\end{figure}
+
+\subsection{Include and Extend Relationships}
+Relationship direction follows UML convention: a base use case uses \texttt{<<include>>} for a mandatory sub-behaviour, and an optional or conditional use case uses \texttt{<<extend>>} to extend its base.
+
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.6cm} L{3.6cm} Y@{}}
+\caption{Include relationships}\label{tab:include}\\
+\toprule
+\textbf{Base Use Case} & \textbf{Included Use Case} & \textbf{Justification} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Base Use Case} & \textbf{Included Use Case} & \textbf{Justification} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Browse Products & Search Products & Browsing includes product search. \\
+Browse Products & View Product Details & Browsing leads to viewing a product's details. \\
+\R Ask Assistant about Product & \R Summarise Product Reviews & \R Every answer contains the review summary. \\
+\R Submit Review & \R Moderate Review Automatically & \R Every submitted review is checked before publication. \\
+Manage Shopping Cart & Add to Cart & Cart management includes adding an item. \\
+Add to Cart & Select Quantity & Quantity is selected when adding an item. \\
+Add to Cart & Select Category & The size/colour variant is selected when adding an item. \\
+Checkout Cart & Select Checkout Item & Checkout includes selecting items. \\
+Checkout Cart & Choose Delivery Detail & Checkout includes delivery details. \\
+Checkout Cart & Confirm Payment Method & Checkout includes payment-method confirmation. \\
+Cancel Request & Confirm Reason & Cancellation requires a reason. \\
+Submit Review & Rate Star & Review submission includes a star rating. \\
+Request Return/Exchange & Choose Order Items & The request identifies the order items concerned. \\
+Request Return/Exchange & Select Return/Exchange & The customer selects return or exchange. \\
+Request Return/Exchange & Add Reason & The request includes a reason. \\
+Manage Promotion & Edit Product Promotion & Promotion management includes editing a product promotion. \\
+Manage Reviews & View Review & Review management includes viewing reviews. \\
+Update Order Status & Change State & Status update includes changing state. \\
+Update Order Status & Add Detail & Status update includes adding related detail. \\
+Cancel Order & Add Cancel Reason & Order cancellation includes a cancellation reason. \\
+\end{xltabular}
+
+\begin{xltabular}{\textwidth}{@{}L{3.6cm} L{3.6cm} Y@{}}
+\caption{Extend relationships}\label{tab:extend}\\
+\toprule
+\textbf{Extending Use Case} & \textbf{Base Use Case} & \textbf{Justification} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Extending Use Case} & \textbf{Base Use Case} & \textbf{Justification} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Edit Information & Manage Profile & Editing profile data is optional. \\
+Delete Account & Manage Profile & Account deletion is optional. \\
+Link Payment Service & Manage Profile & Linking a payment method is optional. \\
+Search Keyword & Search Products & Keyword search is optional. \\
+Search Voice & Search Products & Voice search is optional. \\
+Search Image & Search Products & Image search is optional. \\
+View Rating & View Product Details & Rating viewing is optional. \\
+Add to Cart & View Product Details & Adding to cart is optional from the detail page. \\
+\R Ask Assistant about Product & \R View Product Details & \R Asking the assistant is optional on the product page. \\
+Edit Quantity & Manage Shopping Cart & Quantity editing is optional. \\
+Edit Category & Manage Shopping Cart & Changing the size/colour variant is optional. \\
+Delete Item & Manage Shopping Cart & Deleting an item is optional. \\
+Apply Voucher & Checkout Cart & Voucher application is optional. \\
+Add Order Note & Checkout Cart & An order note is optional. \\
+Cancel Request & View Order Detail & Cancellation is requested from the order detail. \\
+Track Order Status & View Order Detail & Tracking extends order-detail viewing. \\
+Confirm Received & View Order Detail & Receipt confirmation extends order-detail viewing. \\
+Submit Review & View Order Detail & Reviewing extends order-detail viewing. \\
+Request Return/Exchange & View Order Detail & A return/exchange is requested from the order detail. \\
+Add Comment & Submit Review & Commenting is optional. \\
+Add Image & Request Return/Exchange & Image evidence is optional. \\
+Add Video & Request Return/Exchange & Video evidence is optional. \\
+View User Report & View System Reports & User report is optional. \\
+View Order Report & View System Reports & Order report is optional. \\
+Delete Review & Manage Reviews & Deleting a review is optional. \\
+Recover Account & Manage Customer Accounts & Account recovery is conditional. \\
+Edit Account Status & Manage Customer Accounts & Account-status editing is conditional. \\
+Block/Unblock Account & Manage Customer Accounts & Blocking/unblocking is conditional. \\
+Edit Detail & Manage Products / Variants & Detail editing is conditional. \\
+Edit Image/Video & Manage Products / Variants & Media editing is conditional. \\
+\end{xltabular}
+}
+
+% ---------------------------------------------------------------------
+\section{Use Case Specifications}
+\label{sec:ucspec}
+Five important use cases are specified in full, satisfying the required minimum and including the mandatory \emph{Place Order / Checkout} use case. \upd{Version~2 adds a sixth specification, UC32 (Section~\ref{subsec:uc32}), for the AI assistant.} Together they represent the key customer and operational processes of ABC Fashion: account registration (UC01), product search (UC05), checkout (UC08), inventory management (UC17), and return/exchange processing (UC18). Each specification shows normal flows, alternative flows, exceptions, business rules, and priority. \textbf{Each specification has exactly one activity diagram}, drawn in Visual Paradigm (Figures~\ref{fig:actuc01}--\ref{fig:actuc32}): the main success scenario runs down the centre, and every alternative flow and exception of the specification appears as a guarded branch, so the diagram and the text can be checked against each other step by step. The final version reviewed the specifications against the implemented system of Chapter~\ref{ch:implementation}; the steps were made atomic and consistent with the implementation (for example, the order is created in the state \emph{pending payment} with the stock reserved before payment, and manual stock adjustment is an alternative flow of UC17). In the flows, ``4a'' denotes a branch from step 4 of the main scenario.
+
+% ---- UC01 ----
+\subsection{UC01 --- Register Account}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC01 --- Register Account}\label{tab:uc01}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC01}
+\ucrow{Use Case Name}{Register Account}
+\ucrow{Primary Actor}{Customer}
+\ucrow{Supporting Actors}{None}
+\ucrow{Goal}{The customer creates an account in order to shop, save sizes, and track orders.}
+\ucrow{Trigger}{The customer selects ``Register'' / ``Create Account''.}
+\ucrow{Preconditions}{No account is registered under the customer's email address.}
+\ucrow{Postconditions}{A new customer account and profile exist, and the customer is logged in.}
+\ucrow{Main Success Scenario}{%
+1. Customer selects \emph{Register}.\newline
+2. System displays the registration form (name, email, password, optional size-profile field) with \emph{Submit} and \emph{Back} buttons.\newline
+3. Customer enters the details (e.g., name = Alex; email = alex@email.com; password = Alex@2026) and clicks \emph{Submit}.\newline
+4. System validates the input (email format, password rule, email not already registered).\newline
+5. System creates the account, the customer profile and an empty shopping cart, displays ``Success'', and opens the login page (email field, password field, \emph{Login} and \emph{Register} buttons).\newline
+6. Customer enters alex@email.com and the password and clicks \emph{Login}.\newline
+7. System verifies the credentials and displays the home page. The use case ends.}
+\ucrow{Alternative Flows}{\textbf{A1 --- Save size profile (step 3):} Customer also enters saved sizes and colour preferences; at step 5 the system stores them in the profile.}
+\ucrow{Exceptions}{%
+\textbf{E1 --- Email already registered (step 4):}\newline
+4a.1 System rejects the submission and displays ``Email already exists!''.\newline
+4a.2 Customer clicks \emph{Confirm}.\newline
+4a.3 System returns to the form, keeps the entered data, highlights the email field in red with ``Please enter a new email''.\newline
+4a.4 Customer enters a new email (e.g., alexg@email.com) and clicks \emph{Submit}; the flow resumes at step 4.\newline
+\textbf{E2 --- Invalid input (step 4):}\newline
+4b.1 System rejects the submission and displays ``Invalid input!''.\newline
+4b.2 Customer clicks \emph{Confirm}.\newline
+4b.3 System returns to the form, keeps the valid data, highlights each invalid field in red with ``Please enter a valid input'' and the input rule below it.\newline
+4b.4 Customer corrects the input and clicks \emph{Submit}; the flow resumes at step 4.}
+\ucrow{Business Rules}{%
+BR1: Each customer account is uniquely identified by its email address.\newline
+BR2: Passwords must have at least 8 characters and contain both letters and digits (e.g., Alex@2026).}
+\ucrow{Related Requirements}{FR01, FR02, FR03; NFR03}
+\textbf{Priority} & Must Have \\
+\end{xltabular}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth,height=0.72\textheight,keepaspectratio]{act_uc01_vp.png}
+\caption{Activity diagram for UC01 --- Register Account}
+\label{fig:actuc01}
+\end{figure}
+
+% ---- UC05 ----
+\subsection{UC05 --- Search Products}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC05 --- Search Products}\label{tab:uc05}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC05}
+\ucrow{Use Case Name}{Search Products}
+\ucrow{Primary Actor}{Customer}
+\ucrow{Supporting Actors}{None}
+\ucrow{Goal}{The customer quickly finds products matching a style, size, or colour.}
+\ucrow{Trigger}{The customer enters a search term or applies filters on the catalogue page.}
+\ucrow{Preconditions}{Product catalogue and variant data are available in the system.}
+\ucrow{Postconditions}{Matching products and their available variants are displayed to the customer.}
+\ucrow{Main Success Scenario}{%
+1. Customer opens the search function.\newline
+2. System displays the search interface with three modes --- \emph{Search by Keyword}, \emph{Search by Voice}, \emph{Search by Image} --- and filters.\newline
+3. Customer enters a keyword and/or selects filters (category, size, colour, collection, price range).\newline
+4. System queries the catalogue for matching styles and variants and displays a result list showing, for each style, the sizes/colours currently available.\newline
+5. Customer selects a result.\newline
+6. System displays the full product details (UC06). The use case ends.}
+\ucrow{Alternative Flows}{%
+\textbf{A1 --- Refine filters (after step 4):} Customer narrows the filters (e.g., to one size); the system re-queries and the flow returns to step 4.\newline
+\textbf{A2 --- Search by voice (step 3):} Customer speaks the query; the system converts it to text and continues at step 4.\newline
+\textbf{A3 --- Search by image (step 3):} Customer uploads or captures an image; the system finds visually similar styles and continues at step 4.}
+\ucrow{Exceptions}{%
+\textbf{E1 --- No matching products (step 4):}\newline
+4a.1 System displays ``No matching results''.\newline
+4a.2 Customer chooses another search mode or changes the query; the flow resumes at step 3.\newline
+\textbf{E2 --- Voice or image query cannot be processed (A2, A3):}\newline
+3a.1 System shows that the query could not be processed (not recognised, or the search service is unavailable).\newline
+3a.2 Customer chooses another search mode (keyword search remains available); the flow resumes at step 3.}
+\ucrow{Business Rules}{BR1: Search results must reflect current variant-level availability, not merely style-level existence.}
+\ucrow{Related Requirements}{FR06, FR07, FR08; NFR01, NFR05}
+\textbf{Priority} & Must Have \\
+\end{xltabular}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{act_uc05_vp.png}
+\caption{Activity diagram for UC05 --- Search Products}
+\label{fig:actuc05}
+\end{figure}
+
+% ---- UC08 ----
+\subsection{UC08 --- Place Order / Checkout}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC08 --- Place Order / Checkout}\label{tab:uc08}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC08}
+\ucrow{Use Case Name}{Place Order / Checkout Cart}
+\ucrow{Primary Actor}{Customer}
+\ucrow{Supporting Actors}{Payment Service, Shipping Provider}
+\ucrow{Goal}{The customer purchases the specific size/colour variants held in the shopping cart.}
+\ucrow{Trigger}{The customer selects ``Checkout'' from the shopping cart.}
+\ucrow{Preconditions}{The customer is logged in and the cart contains at least one product variant.}
+\ucrow{Postconditions}{A confirmed order is recorded at the variant level, payment is confirmed, variant-level inventory is updated, and a shipment request is sent to the Shipping Provider.}
+\ucrow{Main Success Scenario}{%
+1. Customer opens the shopping cart and selects \emph{Checkout}.\newline
+2. System validates the availability of every selected variant (UC29) and displays the checkout page with the items by size/colour variant and their prices.\newline
+3. Customer confirms or updates the shipping information.\newline
+4. System calculates the available delivery services and lists them ordered by shipping fee.\newline
+5. Customer selects a delivery option.\newline
+6. System calculates the order total including the shipping fee (UC30) and suggests applicable vouchers.\newline
+7. Customer selects a payment method and confirms the order.\newline
+8. System creates the order in the state \emph{pending payment}, reserves the stock of every variant, and sends the payment request to the Payment Service (UC31).\newline
+9. Customer completes the payment on the payment interface (when the method requires it).\newline
+10. Payment Service confirms the transaction and returns the result to the system.\newline
+11. System confirms the order, decrements variant-level inventory (UC25), sends the shipment request to the Shipping Provider, and displays the order confirmation. The use case ends.}
+\ucrow{Alternative Flows}{%
+\textbf{A1 --- Apply voucher (step 6, UC26):} Customer enters a voucher or discount code; the system validates it and, if valid, applies the discount and recalculates the total. If invalid, the system displays a message and keeps the original total.\newline
+\textbf{A2 --- Add order note (before step 7):} Customer adds a note with additional instructions for order processing; the system stores it with the order.\newline
+\textbf{A3 --- Split shipment (step 11, UC28):} If the order cannot be fulfilled from a single stock location, the system creates one shipment per stock location and informs the customer.\newline
+\textbf{A4 --- Cash on delivery (step 7):} No payment request is sent; steps 9--10 are skipped, the system confirms the order at step 11 and the amount is collected on delivery.}
+\ucrow{Exceptions}{%
+\textbf{E1 --- Variant unavailable (step 2):}\newline
+2a.1 System freezes checkout, flags the unavailable item, and asks the customer to adjust the cart.\newline
+2a.2 Customer confirms returning to the cart.\newline
+2a.3 System returns to the shopping cart. The use case ends; the customer may adjust the cart and restart checkout.\newline
+\textbf{E2 --- Payment declined or Payment Service unavailable (step 10):}\newline
+10a.1 System displays ``Transaction cancelled''; the order remains unconfirmed and its stock stays reserved.\newline
+10a.2 Customer clicks \emph{OK}.\newline
+10a.3 System returns to payment selection; the flow resumes at step 7 so the customer can retry or choose another method (no second order is created).}
+\ucrow{Business Rules}{%
+BR1: Only variants with confirmed stock at the time of payment may be included in a confirmed order.\newline
+BR2: Inventory is decremented only after payment is successfully confirmed; until then the stock is only reserved.\newline
+BR3: A voucher or discount is applied only when its conditions are satisfied.\newline
+BR4: An order that is not paid within 30 minutes is cancelled automatically and its reserved stock is released.}
+\ucrow{Related Requirements}{FR10--FR15, FR19--FR22, FR25; NFR02, NFR04, NFR07, NFR10}
+\textbf{Priority} & Must Have \\
+\end{xltabular}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{act_uc08_vp.png}
+\caption{Activity diagram for UC08 --- Place Order / Checkout}
+\label{fig:actuc08}
+\end{figure}
+
+
+% ---- UC17 ----
+\subsection{UC17 --- Manage Inventory}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC17 --- Manage Inventory}\label{tab:uc17}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC17}
+\ucrow{Use Case Name}{Manage Inventory}
+\ucrow{Primary Actor}{Warehouse Staff}
+\ucrow{Supporting Actors}{Supplier}
+\ucrow{Goal}{Warehouse Staff maintain accurate variant-level stock information and initiate restocking when inventory requires replenishment.}
+\ucrow{Trigger}{Warehouse Staff opens the inventory management function, or a stock level falls below the defined reorder threshold.}
+\ucrow{Preconditions}{Warehouse Staff is authenticated and authorised to access inventory-management functions.}
+\ucrow{Postconditions}{Variant-level stock records are updated accurately and every change is recorded as a stock movement; where required, a restock request has been sent to the Supplier and, once the goods are received, added to stock.}
+\ucrow{Main Success Scenario}{%
+1. Warehouse Staff opens the \emph{Inventory Management} function.\newline
+2. System displays the current stock levels for each style and size/colour variant.\newline
+3. Warehouse Staff identifies a variant that requires replenishment, creates a restock request (supplier, style, size, quantity) and sends it.\newline
+4. System records the request and notifies the Supplier.\newline
+5. Supplier reviews the request, confirms it and provides the expected supply date.\newline
+6. System records the confirmation and the expected incoming stock.\newline
+7. When the goods arrive, Warehouse Staff marks the request as received.\newline
+8. System increases the stock of each variant and records the stock movements. The use case ends.}
+\ucrow{Alternative Flows}{%
+\textbf{A1 --- Reorder threshold reached (trigger):} When stock falls below the reorder threshold, the system flags the affected variant for Warehouse Staff to review; the flow continues at step 1.\newline
+\textbf{A2 --- Manual stock adjustment (step 3):} Warehouse Staff selects a variant and enters the new quantity and a reason; the system validates the adjustment, updates the stock, and records the stock movement and the audit-log entry. The use case ends.}
+\ucrow{Exceptions}{%
+\textbf{E1 --- Supplier cannot fulfil the restock (step 5):}\newline
+5a.1 Supplier refuses the request and enters the reason.\newline
+5a.2 System records the refusal and forwards it to Warehouse Staff for follow-up. The use case ends.\newline
+\textbf{E2 --- Invalid adjustment (A2):}\newline
+A2a.1 The new quantity would fall below the quantity already reserved for orders; the system shows a message and the stock is not changed.\newline
+A2a.2 Warehouse Staff enters a new quantity and reason; the flow continues with the validation.}
+\ucrow{Business Rules}{%
+BR1: Stock levels are tracked at the size/colour variant (SKU) level.\newline
+BR2: Inventory information reflects the latest confirmed stock adjustment.\newline
+BR3: Restock requests identify the relevant product style and size.\newline
+BR4: Every stock change is recorded as a stock movement with its reason; stock on hand never falls below the reserved quantity.}
+\ucrow{Related Requirements}{FR22, FR23, FR24, FR35, FR38; NFR10, NFR11}
+\textbf{Priority} & Must Have \\
+\end{xltabular}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.75\textheight,keepaspectratio]{act_uc17_vp.png}
+\caption{Activity diagram for UC17 --- Manage Inventory}
+\label{fig:actuc17}
+\end{figure}
+
+% ---- UC18 ----
+\subsection{UC18 --- Process Return / Exchange}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC18 --- Process Return / Exchange}\label{tab:uc18}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC18}
+\ucrow{Use Case Name}{Process Return / Exchange}
+\ucrow{Primary Actors}{Customer Service Staff, Warehouse Staff}
+\ucrow{Supporting Actors}{Shipping Provider (pickup), Payment Service (refund)}
+\ucrow{Goal}{Staff authorise, inspect, and resolve a customer's return or exchange request.}
+\ucrow{Trigger}{A customer submits a return or exchange request (UC14).}
+\ucrow{Preconditions}{A valid order exists for the requested item, and the staff member is authenticated.}
+\ucrow{Postconditions}{The request is resolved by refund, exchange, or rejection; if the returned item is approved for resale, variant-level inventory is updated.}
+\ucrow{Main Success Scenario}{%
+1. Customer Service Staff opens the return/exchange processing function.\newline
+2. System displays the list of pending return/exchange requests.\newline
+3. Customer Service Staff selects a request and reviews the stated reason (e.g., size/fit issue or defect) and any attached images or video.\newline
+4. System checks that the request is within the allowed return period and displays the result.\newline
+5. Customer Service Staff authorises the return and requests a return pickup.\newline
+6. System records the authorisation and sends the pickup request to the Shipping Provider.\newline
+7. Shipping Provider collects the item and confirms the pickup/shipment status.\newline
+8. System notifies Warehouse Staff of the incoming item.\newline
+9. Warehouse Staff receives and inspects the item against the quality criteria and records that it passed.\newline
+10. System increases the corresponding variant-level stock (UC25).\newline
+11. Customer Service Staff finalises the resolution as a refund; the system requests the refund from the Payment Service and notifies the customer. The use case ends.}
+\ucrow{Alternative Flows}{%
+\textbf{A1 --- Exchange (step 11):} Instead of a refund, the customer requested a different size or colour. The system checks the availability of the replacement variant; if it is available, Customer Service Staff finalises the exchange and the system notifies the customer. If it is not available, the system flags the case for follow-up (e.g., offering a refund).\newline
+\textbf{A2 --- Reject the request (step 5):} Customer Service Staff rejects the request with a reason (e.g., missing evidence or not covered by the return policy); the system records the decision and notifies the customer. The use case ends.}
+\ucrow{Exceptions}{%
+\textbf{E1 --- Item fails quality inspection (step 9):}\newline
+9a.1 System rejects restocking and flags the case for customer-service follow-up.\newline
+9a.2 Customer Service Staff receives the notification and confirms the outcome.\newline
+9a.3 System notifies the customer of the decision. The use case ends.\newline
+\textbf{E2 --- Return period expired (step 4):}\newline
+4a.1 System rejects the request and informs the customer. The use case ends.}
+\ucrow{Business Rules}{%
+BR1: Only items that pass warehouse quality inspection may be returned to sellable stock.\newline
+BR2: Returns and exchanges follow ABC Fashion's applicable return policy.\newline
+BR3: Inventory is increased only when the returned item is confirmed as suitable for resale.}
+\ucrow{Related Requirements}{FR27--FR30, FR36; NFR11}
+\textbf{Priority} & Must Have \\
+\end{xltabular}
+}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,height=0.86\textheight,keepaspectratio]{act_uc18_vp.png}
+\caption{Activity diagram for UC18 --- Process Return / Exchange}
+\label{fig:actuc18}
+\end{figure}
+
+
+% ---- UC32 (new in V2)
+\subsection{\upd{UC32 --- Ask Assistant about Product}}
+\label{subsec:uc32}
+{\small\vtwocolor
+\begin{xltabular}{\textwidth}{@{}L{3.1cm} Y@{}}
+\caption{Use case specification UC32 --- Ask Assistant about Product}\label{tab:uc32}\\
+\toprule
+\endfirsthead
+\toprule
+\endhead
+\bottomrule
+\endlastfoot
+\ucrow{Use Case ID}{UC32}
+\ucrow{Use Case Name}{Ask Assistant about Product}
+\ucrow{Primary Actor}{Customer}
+\ucrow{Supporting Actors}{None (the language model is an internal component; Section~\ref{sec:actors})}
+\ucrow{Goal}{The customer gets an objective answer about one product, based only on its description and approved customer reviews.}
+\ucrow{Trigger}{The customer opens ``Ask the assistant'' on a product page and types or selects a question.}
+\ucrow{Preconditions}{The product is published and the assistant is switched on.}
+\ucrow{Postconditions}{The answer is shown in four blocks; every grounding intervention is logged; no personal data from the question is stored.}
+\ucrow{Main Success Scenario}{%
+1. Customer enters a question, e.g.\ ``Does it run small?''.\newline
+2. System checks the request limits (20 questions per 10 minutes per client; one model answer at a time).\newline
+3. System identifies the product (the product of the page, or a product named in the question) and summarises its approved reviews (UC33).\newline
+4. System shows blocks 1--3: catalogue facts; size and fit, including the fit consensus; what customers say.\newline
+5. System sends the facts, the review summary and the question to the language model and receives a JSON answer.\newline
+6. System checks each sentence against the catalogue and the review summary, removes unsupported sentences, replaces the price, stock, fit and material tokens, and streams the remaining sentences.\newline
+7. System shows block 4 (suits / consider / ask the seller). The use case ends.}
+\ucrow{Alternative Flows}{%
+\textbf{A1 --- Product not identified (step 3):} the system asks which product the customer means. The use case ends.\newline
+\textbf{A2 --- Greeting or off-topic question (step 3):} the system gives a fixed answer explaining what it can help with.\newline
+\textbf{A3 --- Product without reviews (step 4):} block 3 states that there are no reviews; the answer must say so (honesty guard).}
+\ucrow{Exceptions}{%
+\textbf{E1 --- Model unavailable, too slow, or invalid JSON (step 5):} 5a.1 the system writes a basic answer from blocks 1--3 and marks it as such.\newline
+\textbf{E2 --- Limit exceeded (step 2):} 2a.1 the system answers ``too many questions'' or ``busy, try again'' (HTTP 429). The use case ends.\newline
+\textbf{E3 --- Output cut off (step 5):} 5b.1 the unfinished last sentence is dropped; the flow continues at step 6.}
+\ucrow{Business Rules}{%
+BR1: Blocks 1--3 are generated only from stored data.\newline
+BR2: The model may not state prices, stock, fit or fabric itself; it writes tokens that the system replaces.\newline
+BR3: Size advice requires at least five fit votes with at least 60\% agreement.\newline
+BR4: Only approved reviews are counted; test and demo reviews are excluded in production.\newline
+BR5: Personal data are removed from the question before it is sent to the model.}
+\ucrow{Related Requirements}{FR39--FR42, FR45; NFR13--NFR16}
+\textbf{Priority} & Should Have (FR45 and NFR15 are Must once the assistant is enabled) \\
+\end{xltabular}
+}
+\upd{The sequence of this use case and its implementation are analysed in Section~\ref{sec:design} (Figure~\ref{fig:sequence}).}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.95\textwidth,height=0.72\textheight,keepaspectratio]{act_uc32_vp.png}
+\caption{Activity diagram for UC32 --- Ask Assistant about Product}
+\label{fig:actuc32}
+\end{figure}
+
+% ---------------------------------------------------------------------
+\section{Requirement Traceability}
+\label{sec:trace}
+
+\subsection{Problem-to-Use-Case Traceability}
+Table~\ref{tab:trace} connects the business problems of Chapter~\ref{ch:identification} with the corresponding stakeholder needs, requirements, and use cases, demonstrating that the proposed requirements directly address each identified problem.
+
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.0cm} Y L{2.6cm} L{1.7cm}@{}}
+\caption{Requirement traceability matrix}\label{tab:trace}\\
+\toprule
+\textbf{Problem} & \textbf{Stakeholder Need} & \textbf{Requirement(s)} & \textbf{Use Case(s)} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Problem} & \textbf{Stakeholder Need} & \textbf{Requirement(s)} & \textbf{Use Case(s)} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+P1 Inaccurate inventory & SN08 Warehouse Staff needs accurate stock per variant & FR22, FR23, NFR10, NFR11 & UC17, UC25 \\ \addlinespace
+P1 Inaccurate inventory & SN13 Supplier needs accurate restock demand & FR24 & UC17 \\ \addlinespace
+P2 Inconsistent product information & SN05 Administrator needs a consistent view of product and variant data & FR04, FR05 & UC21 \\ \addlinespace
+P2 Inconsistent product information & SN03 Customer needs size/fit feedback to reduce mismatches & FR31 & UC13 \\ \addlinespace
+P3 Slow returns/exchanges & SN04 Customer needs to request a return or exchange quickly & FR27 & UC14 \\ \addlinespace
+P3 Slow returns/exchanges & SN09 Warehouse Staff needs a standardised returns workflow & FR28, FR29 & UC18 \\ \addlinespace
+P4 Slow order-status updates & SN02 Customer needs order and shipment visibility & FR16 & UC09, UC11 \\ \addlinespace
+P4 Slow order-status updates & SN07 Staff need timely access to submitted orders & FR18 & UC22 \\ \addlinespace
+P5 Slow reporting / decisions & SN12 Manager needs timely consolidated reports & FR34, FR35, FR36 & UC24 \\ \addlinespace
+P5 Slow reporting / decisions & SN06 Merchandisers need reliable sales and inventory information & FR34, FR35 & UC16 \\ \addlinespace
+P6 Duplicated customer data & SN10 Customer Service Staff needs relevant customer and order information & FR03, FR37, NFR12 & UC03, UC20 \\ \addlinespace
+P6 Duplicated customer data & SN11 Marketing Staff needs reliable data for promotions & FR33 & UC15 \\ \addlinespace
+\R P2 Inconsistent product information & \R SN16 Customer needs an objective product summary & \R FR39, FR40, FR41, FR45, NFR15 & \R UC32, UC33 \\ \addlinespace
+\R P3 Size-related returns & \R SN16 Customer needs to know how the product fits & \R FR42, FR43 & \R UC32, UC13 \\ \addlinespace
+\R P2 Inconsistent product information & \R SN17 Customer Service Staff need automatic review checks & \R FR44, NFR16 & \R UC34 \\
+\end{xltabular}
+}
+
+\subsection{Functional Requirement Coverage}
+To confirm completeness in the other direction, Table~\ref{tab:coverage} maps every functional requirement to the use case(s) that realise it.
+
+{\small
+\begin{xltabular}{\textwidth}{@{}l Y | l Y@{}}
+\caption{Functional requirement to use case coverage}\label{tab:coverage}\\
+\toprule
+\textbf{FR} & \textbf{Use Case(s)} & \textbf{FR} & \textbf{Use Case(s)} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{FR} & \textbf{Use Case(s)} & \textbf{FR} & \textbf{Use Case(s)} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+FR01 & UC01 & FR20 & UC31, UC08 \\
+FR02 & UC02 & FR21 & UC26 \\
+FR03 & UC03 & FR22 & UC25 \\
+FR04 & UC21 & FR23 & UC17 \\
+FR05 & UC21 & FR24 & UC17 \\
+FR06 & UC04 & FR25 & UC08, UC22 \\
+FR07 & UC05 & FR26 & UC22 \\
+FR08 & UC05, UC06 & FR27 & UC14 \\
+FR09 & --- (Chapter 3) & FR28 & UC18 \\
+FR10 & UC07 & FR29 & UC18, UC25 \\
+FR11 & UC07 & FR30 & UC18 \\
+FR12 & UC30, UC26 & FR31 & UC13 \\
+FR13 & UC08 & FR32 & UC19 \\
+FR14 & UC29 & FR33 & UC15, UC27 \\
+FR15 & UC28 & FR34 & UC16, UC24 \\
+FR16 & UC09, UC11, UC12 & FR35 & UC16, UC24 \\
+FR17 & UC10, UC23 & FR36 & UC24 \\
+FR18 & UC22 & FR37 & UC20 \\
+FR19 & UC08, UC31 & FR38 & --- (cross-cutting) \\
+\R FR39 & \R UC32 & \R FR43 & \R UC13 \\
+\R FR40 & \R UC32, UC33 & \R FR44 & \R UC34 \\
+\R FR41 & \R UC33 & \R FR45 & \R UC32 \\
+\R FR42 & \R UC33, UC32 & & \\
+\end{xltabular}
+}
+\upd{Forty-three of the forty-five} functional requirements are realised by at least one use case \upd{(all seven new AI requirements are covered)}. The two exceptions are both \emph{Could Have} requirements: FR09 (profile-based recommendation) is deliberately deferred to Chapter~3, where AI for e-commerce is analysed, and FR38 (audit log) is a cross-cutting system behaviour that applies to every staff use case that changes catalogue or inventory data rather than an actor goal of its own.
+
+% ---------------------------------------------------------------------
+\section{Requirement Validation}
+\label{sec:validation}
+A good requirement should be clear, consistent, complete, feasible, and verifiable. This section reviews five well-defined requirements against these criteria, revises three problematic requirement statements, and reviews the consistency of the requirement text with the UML model.
+
+\subsection{Well-Defined Requirements}
+\textbf{FR14:} ``The system shall validate the availability of each ordered size/colour variant before confirming the order.''\newline
+It specifies a single, unambiguous action (\emph{validate availability}), the exact object (\emph{each ordered size/colour variant}), and the condition (\emph{before confirming the order}). It is directly testable: attempting to confirm an order containing an out-of-stock variant must fail.
+
+\textbf{FR22:} ``The system shall update stock at the specific size/colour variant level immediately after a confirmed order.''\newline
+It states what is updated (stock), at what granularity (variant, not style), and when (immediately after a confirmed order). The timing and granularity make it verifiable in a single test case.
+
+\textbf{NFR01:} ``Normal product search and catalogue browsing shall return results within 3 seconds under normal operating conditions.''\newline
+It gives a measurable target (3 seconds) and defines the operating condition under which it applies, so it can be verified with a load test.
+
+\textbf{NFR10:} ``The system shall prevent an order from being confirmed when the requested size/colour variant is out of stock.''\newline
+It is a precise, binary data-integrity constraint with a single testable condition (out-of-stock variant $\rightarrow$ order confirmation blocked).
+
+\textbf{UC08 (Place Order / Checkout):} full use-case specification.\newline
+It has an explicit primary actor, trigger, pre- and postconditions, a numbered main success scenario, and separately identified alternative flows and exceptions, leaving no ambiguity about what placing an order requires.
+
+\subsection{Problematic Requirements, Identified and Revised}
+\begin{xltabular}{\textwidth}{@{}L{3.4cm} L{4.6cm} Y@{}}
+\caption{Problematic requirement statements and revisions}\label{tab:revised}\\
+\toprule
+\textbf{Draft (poor)} & \textbf{Problem} & \textbf{Revised Requirement} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Draft (poor)} & \textbf{Problem} & \textbf{Revised Requirement} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+``The system should manage inventory well.'' & \emph{Manage} is not a specific action and \emph{well} is not measurable; there is no defined object, granularity, or trigger. & \textbf{FR22:} The system shall update stock at the specific size/colour variant level immediately after a confirmed order. \\ \addlinespace
+``The system should have good reporting.'' & \emph{Good} is subjective and unverifiable; the statement does not say which reports, at what level of detail, or for whom. & \textbf{FR34:} The system shall generate sales reports by product, variant, and collection. \\ \addlinespace
+``The system should be secure and reliable.'' & Combines two distinct quality attributes in one sentence, so it cannot be tested or traced as a single requirement, and neither quality is defined precisely enough to verify. & Split into \textbf{NFR03} (Security): only authenticated customers shall be able to access their own order, profile, and payment information; and \textbf{NFR07} (Reliability): confirmed orders and payment records shall be preserved without loss even in the event of a system failure. \\ \addlinespace
+\R ``The chatbot should give smart and accurate answers.'' & \R \emph{Smart} and \emph{accurate} cannot be tested; the statement does not say what the answer may be based on or how errors are detected. & \R \textbf{FR45} (remove unsupported statements and log them) together with \textbf{NFR15} (no unsupported claim in the acceptance benchmark), which can be measured. \\ \addlinespace
+\R ``The system should tell customers which size to buy.'' & \R No evidence base and no threshold: advice based on one or two opinions would mislead customers and could increase returns. & \R \textbf{FR42}: size advice only with at least five fit votes and at least 60\% agreement; otherwise the system says the evidence is mixed or insufficient. \\
+\end{xltabular}
+
+\subsection{Model Consistency Review}
+A cross-check between the requirement text, the use-case specifications, and the UML diagrams (Figures~\ref{fig:ucgeneral}--\ref{fig:ucd4}) identified the following points. They do not change the scope of the system, and are recorded here for a later revision of the use-case diagrams.
+\begin{enumerate}
+  \item \textbf{UC18 actors.} The UML diagrams associate \emph{Process Return/Exchange} with Manager, Shipping Provider, and Payment Service, whereas FR28, the specification, and the activity diagram assign the operational steps to Customer Service Staff and Warehouse Staff. \emph{Resolution:} add associations for Customer Service Staff and Warehouse Staff; Manager remains the approving role.
+  \item \textbf{Product management.} FR04/FR05 assign product and variant maintenance to Administrators \emph{and Merchandisers}, but \emph{Manage Products / Variants} is associated with Administrator and Manager only. \emph{Resolution:} add a Merchandiser association.
+  \item \textbf{Sales Staff.} FR18 refers to sales staff, who are not a UML actor (Section~\ref{sec:actors}). \emph{Resolution:} kept as a documented decision; Sales Staff may later be added as a specialisation of Ecommerce Staff associated with \emph{Update Order Status}.
+  \item \textbf{Review moderation.} FR32 names Customer Service Staff, while the diagram also associates Administrator with \emph{Manage Reviews}. \emph{Resolution:} FR32 is read as ``customer service staff and administrators''.
+  \item \textbf{Cancellation.} \emph{Cancel Request} (customer-initiated, UC10) and \emph{Cancel Order} (Manager, UC23) coexist; the Manager association on UC10 represents approval of the customer's request.
+  \item \textbf{Diagram labels.} Labels such as ``Browser Products'', ``Login customer'', and ``Select/Edit Category'' (meaning the size/colour variant) are normalised in the text and will be corrected in the diagrams.
+  \item \upd{\textbf{AI use cases.} UC32--UC34 (Version~2) are not yet drawn in the UML diagrams. They will be added: UC32 extends View Product Details, UC32 includes UC33, and Submit Review includes UC34.}
+\end{enumerate}
+
+% ---------------------------------------------------------------------
+\section{Chapter Summary}
+Chapter~2 transformed the findings of Chapter~1 into a structured requirements model following the chain Business Problems $\rightarrow$ Stakeholder Needs $\rightarrow$ Functional Requirements $\rightarrow$ Non-Functional Requirements $\rightarrow$ Actors $\rightarrow$ Use Cases $\rightarrow$ Use-Case Specifications. Thirty-eight functional and twelve non-functional requirements were specified and prioritised with MoSCoW (31 Must, 14 Should, 5 Could, plus four explicit Won't-Have items). Eleven UML actors and thirty-one use cases were identified and modelled in six use-case diagrams with their include and extend relationships. Five key use cases --- UC01, UC05, UC08, UC17, and UC18 --- were specified in detail, each with one activity diagram. Traceability was demonstrated from every problem to requirements and use cases, and from every functional requirement to the use cases that realise it; validation confirmed the quality of key requirements, corrected poorly written statements, and recorded the remaining model inconsistencies. \upd{Version~2 extended the model with the AI review-insight assistant: seven functional requirements (FR39--FR45), four non-functional requirements (NFR13--NFR16), three use cases (UC32--UC34) with a full specification of UC32, new traceability rows and two further validated requirement statements. The totals are now 45 functional and 16 non-functional requirements (34 Must, 22 Should, 5 Could) and 34 use cases.}
+
+% =====================================================================
+\input{chapter3}
+\input{chapter4}
+\input{chapter5}
+\fussy
+
+% =====================================================================
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+\markboth{Conclusion}{Conclusion}
+
+This essay completes the analysis, the design and the implementation of ABC Fashion's E-Commerce Information System. Chapter~1 identified \emph{what problem the system should solve}: ineffective information management caused by manual, style-level data maintenance and fragmented records, made measurable with performance indicators and SMART targets. Chapter~2 specified \emph{what the system must do} in a traceable and validated set of 45 functional and 16 non-functional requirements and 34 use cases, including the AI assistant.
+
+Chapter~3 showed \emph{how AI can extend the system}: intelligent search that converts text, voice and image queries into one common query representation, and a product-insight chatbot based on Qwen3-4B-Instruct whose answers are grounded in the catalogue and the customer reviews.
+
+Chapter~4 showed \emph{how the system is designed}. The 37 analysis classes became 39 tables in third normal form, generated as a PostgreSQL database in which the business rules on stock, totals, vouchers, returns and reviews are enforced by constraints. The design classes --- views, controllers, data-access objects, gateways and entities --- add types and operations and form a layered MVC architecture with checked dependency rules, from which the code skeleton was generated.
+
+Chapter~5 showed \emph{how the system is built and verified}. The design was completed into a working system of 119 modules: 53 desktop screens and a customer web application share the same 15 controllers, 34 data-access objects and 5 gateways, so that every business rule is written once. Orders, payments, cancellations, returns, restocking and shipment tracking run end to end against simulated bank, carrier and messaging services and real AI services, with database locks and ``old state'' checks protecting stock and vouchers under concurrency. The structure check reports 0 layer violations, and the automated tests --- including two customers buying the last unit at the same moment and a full end-to-end scenario --- pass (64 passed, 23 skipped where the external services were not running).
+
+Future work can build on this implementation: replacing the simulated bank, carrier and messaging services with real providers behind the existing gateways, deploying the web application, and running the evaluation plan of Section~\ref{sec:discussion} with real orders, returns and reviews.
+
+
+% =====================================================================
+\renewcommand{\bibname}{References}
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{References}
+\markboth{References}{References}
+\bibitem{brief1} Department of Information Technology, PTIT. \emph{Assignment 01 brief --- E-Commerce Information System Investigation}. Information System Analysis and Design.
+\bibitem{brief2} Department of Information Technology, PTIT. \emph{Assignment 02 brief --- E-Commerce Requirements Engineering and Specification}. Information System Analysis and Design.
+\bibitem{dennis2020} Dennis, A., Wixom, B. H., \& Tegarden, D. (2020). \emph{Systems Analysis and Design: An Object-Oriented Approach with UML} (6th ed.). Wiley.
+\bibitem{sommerville2015} Sommerville, I. (2015). \emph{Software Engineering} (10th ed.). Pearson.
+\bibitem{fowler2002} Fowler, M. (2002). \emph{Patterns of Enterprise Application Architecture}. Addison-Wesley (Service Layer, Repository, Unit of Work, Gateway).
+\bibitem{postgres16} The PostgreSQL Global Development Group. (2024). \emph{PostgreSQL 16 Documentation}, chapters ``Data Definition'' (constraints) and ``Concurrency Control'' (explicit locking).
+\bibitem{omg2017} Object Management Group. (2017). \emph{Unified Modeling Language (UML) Specification}, Version 2.5.1.
+{\vtwocolor
+\bibitem{agrawal1994} Agrawal, R., \& Srikant, R. (1994). Fast algorithms for mining association rules. In \emph{Proc.\ 20th VLDB Conference}, 487--499.
+\bibitem{aircanada2024} Civil Resolution Tribunal of British Columbia. (2024). \emph{Moffatt v.\ Air Canada}, 2024 BCCRT 149. Commentary: McCarthy T\'etrault, ``Moffatt v.\ Air Canada: A misrepresentation by an AI chatbot'', 19 February 2024.
+\bibitem{amazon2023} Amazon. (2023, updated 2024). How Amazon continues to improve the customer reviews experience with generative AI (AI-generated review highlights). \emph{aboutamazon.com}.
+\bibitem{fader2005} Fader, P. S., Hardie, B. G. S., \& Lee, K. L. (2005). ``Counting your customers'' the easy way: An alternative to the Pareto/NBD model. \emph{Marketing Science}, 24(2), 275--284.
+\bibitem{hidasi2016} Hidasi, B., Karatzoglou, A., Baltrunas, L., \& Tikk, D. (2016). Session-based recommendations with recurrent neural networks. In \emph{Proc.\ ICLR 2016}.
+\bibitem{huliu2004} Hu, M., \& Liu, B. (2004). Mining and summarizing customer reviews. In \emph{Proc.\ 10th ACM SIGKDD}, 168--177.
+\bibitem{ji2023} Ji, Z., Lee, N., Frieske, R., et al. (2023). Survey of hallucination in natural language generation. \emph{ACM Computing Surveys}, 55(12), 1--38.
+\bibitem{klarna2024} OpenAI. (2024). Klarna's AI assistant does the work of 700 full-time agents (customer story). \emph{openai.com/index/klarna}.
+\bibitem{koren2009} Koren, Y., Bell, R., \& Volinsky, C. (2009). Matrix factorization techniques for recommender systems. \emph{Computer}, 42(8), 30--37.
+\bibitem{kumar2019} Kumar, A., \& Hosanagar, K. (2019). Measuring the value of recommendation links on product demand. \emph{Information Systems Research}, 30(3), 819--838. Summary: University of Florida Warrington College of Business, ``How valuable are online product recommendations?''.
+\bibitem{lewis2020} Lewis, P., Perez, E., Piktus, A., et al. (2020). Retrieval-augmented generation for knowledge-intensive NLP tasks. In \emph{Advances in Neural Information Processing Systems 33}.
+\bibitem{lim2021} Lim, B., Ar{\i}k, S. \"O., Loeff, N., \& Pfister, T. (2021). Temporal fusion transformers for interpretable multi-horizon time series forecasting. \emph{International Journal of Forecasting}, 37(4), 1748--1764.
+\bibitem{makridakis2022} Makridakis, S., Spiliotis, E., \& Assimakopoulos, V. (2022). M5 accuracy competition: Results, findings, and conclusions. \emph{International Journal of Forecasting}, 38(4), 1346--1364.
+\bibitem{mckinsey2021} Arora, N., Ensslen, D., Fiedler, L., et al. (2021, 12 November). The value of getting personalization right---or wrong---is multiplying. \emph{McKinsey \& Company}.
+\bibitem{pontiki2014} Pontiki, M., Galanis, D., Pavlopoulos, J., et al. (2014). SemEval-2014 Task 4: Aspect based sentiment analysis. In \emph{Proc.\ SemEval 2014}, 27--35.
+\bibitem{qwen3} Qwen Team. (2025). Qwen3 technical report. \emph{arXiv:2505.09388}.
+\bibitem{reichheld2000} Reichheld, F. F., \& Schefter, P. (2000). E-loyalty: Your secret weapon on the web. \emph{Harvard Business Review}, 78(4), 105--113.
+\bibitem{robertson2009} Robertson, S., \& Zaragoza, H. (2009). The probabilistic relevance framework: BM25 and beyond. \emph{Foundations and Trends in Information Retrieval}, 3(4), 333--389.
+\bibitem{salinas2020} Salinas, D., Flunkert, V., Gasthaus, J., \& Januschowski, T. (2020). DeepAR: Probabilistic forecasting with autoregressive recurrent networks. \emph{International Journal of Forecasting}, 36(3), 1181--1191.
+\bibitem{sembium2017} Sembium, V., Rastogi, R., Saroop, A., \& Merugu, S. (2017). Recommending product sizes to customers. In \emph{Proc.\ 11th ACM Conference on Recommender Systems (RecSys)}, 243--250.
+\bibitem{spiegel2017} Spiegel Research Center. (2017). \emph{How online reviews influence sales}. Medill School, Northwestern University.
+\bibitem{pilot} Dong, D. N. (2026). \emph{Pilot deployment of the AI shopping assistant: evaluation reports} (language-model selection, prompt iterations and benchmark results), in Vietnamese, 16 October 2026. Source code and reports: \texttt{github.com/DongDucNguyen/VN\_STORE}.
+\bibitem{rufus2024} CNBC. (2024, February 1). Amazon launches Rufus, an AI-powered shopping assistant trained on the product catalogue and customer reviews. \emph{cnbc.com}.
+\bibitem{lens2024} Retail TouchPoints (2024, October 3). Google Lens handles nearly 20 billion visual searches a month, with shopping a fast-growing use. \emph{Retail TouchPoints}.
+\bibitem{wellens2022} Wellens, A. P., Udenio, M., \& Boute, R. N. (2022). Transfer learning for hierarchical forecasting: Reducing computational efforts of M5 winning methods. \emph{International Journal of Forecasting}, 38(4), 1482--1491.
+\bibitem{zalando_size} Zalando SE. (2023). How Zalando leverages technology to help customers find the right size. \emph{corporate.zalando.com}; see also Just Style, ``Zalando reduces size-related returns with new tool'', 25 July 2023.
+}
+\end{thebibliography}
+
+% =====================================================================
+\appendix
+\renewcommand{\thesection}{\Alph{section}}
+\chapter*{Appendices}
+\addcontentsline{toc}{chapter}{Appendices}
+\markboth{Appendices}{Appendices}
+\setcounter{section}{0}
+\setcounter{table}{0}
+\renewcommand{\thetable}{A.\arabic{table}}
+
+\section{Source Mapping and Revision Log}
+\label{app:revision}
+
+\subsection*{Mapping of Assignment Content to the Essay}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{6.4cm} Y@{}}
+\caption{Mapping of Assignment 01 and Assignment 02 content to this essay}\label{tab:mapping}\\
+\toprule
+\textbf{Source Section} & \textbf{Location in Essay} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Source Section} & \textbf{Location in Essay} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+A01 \S1 Introduction; A02 \S1 Introduction & Introduction \\
+A01 \S2 Business Background & Section~\ref{sec:background} \\
+A01 \S3 Stakeholder Analysis & Section~\ref{sec:stakeholders} \\
+A01 \S4 Business Activity Analysis & Section~\ref{sec:activities} \\
+A01 \S5 Information Analysis & Section~\ref{sec:information} \\
+A01 \S6 Current Problems & Section~\ref{sec:problems} \\
+A01 \S7 Proposed Information System & Section~\ref{sec:proposal} \\
+A02 \S2 Stakeholder Needs & Section~\ref{sec:needs} \\
+A02 \S3 Functional Requirements & Section~\ref{sec:fr} \\
+A02 \S4 Non-Functional Requirements & Section~\ref{sec:nfr} \\
+A02 \S5 Requirement Prioritisation & Section~\ref{sec:moscow} \\
+A02 \S6 Actor Analysis & Section~\ref{sec:actors} \\
+A02 \S7 Use Case Model & Section~\ref{sec:ucmodel} \\
+A02 \S8 Use Case Specifications & Section~\ref{sec:ucspec} \\
+A02 Appendix: swimlane diagrams & Replaced in the final version by one activity diagram per specification (Section~\ref{sec:ucspec}) \\
+A02 \S9 Requirement Traceability & Section~\ref{sec:trace} \\
+A02 \S10 Requirement Validation & Section~\ref{sec:validation} \\
+A01 \S8 and A02 \S11 Conclusions & Chapter summaries; Conclusion of Version \upd{2} \\
+A01/A02 References & References (merged) \\
+A02 Appendix: AI analysis and prototype & \upd{Chapter~\ref{ch:ai} (Section~\ref{subsec:popular}: recommendation, demand forecasting and review mining); the prototype is Listing~\ref{lst:tfidf}} \\
+\end{xltabular}
+}
+
+\subsection*{Revisions Made During Consolidation}
+\begin{itemize}
+  \item Merged the two reports into two chapters aligned with the essay structure; the Assignment 01 introduction and conclusion were rewritten as essay-level sections, and section references were replaced with live cross-references.
+  \item Introduced identifiers for problems (P1--P6), root causes (C1--C2), objectives (O1--O7), and stakeholder needs (SN01--SN15).
+  \item Normalised problem names (e.g., ``Stuck in respondings'' $\rightarrow$ ``Slow, manual reporting and decision support''; corrected ``infomation'') and aligned them between the problem table and the traceability matrix.
+  \item Corrected the problem-tree description (two root causes and three problem groups, rather than ``four groups of causes'').
+  \item Added SN15 (Payment Provider), derived from the existing stakeholder-goals table, so that payment requirements FR19--FR20 trace to a need.
+  \item Added a \emph{Source} column to the FR catalogue, a verification method for every NFR, and a MoSCoW summary table.
+  \item Completed the include/extend tables with relationships shown in the diagrams but missing from the text (Browse Products includes View Product Details; Edit Information, Delete Account, and Link Payment Service extend Manage Profile; Add to Cart extends View Product Details; Request Return/Exchange extends View Order Detail).
+  \item Rewrote the five use-case specifications with consistent step numbering, exception branches tied to the step where they occur (e.g., ``4a''), aligned UC08 and UC18 with their activity and swimlane diagrams, added related requirements, and replaced the example password in UC01 with one that satisfies the stated complexity rule.
+  \item Added a functional-requirement coverage matrix and a model consistency review; removed tool-generation artefacts (references to a ``JSON source'', image file names in captions, stray characters).
+\end{itemize}
+
+\subsection*{\upd{Changes from Version 1 to Version 2}}
+\begin{updated}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.2cm} Y L{3.6cm}@{}}
+\caption{Changes from Version 1 to Version 2}\label{tab:v2changes}\\
+\toprule
+\textbf{Where} & \textbf{Change} & \textbf{Reason} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Where} & \textbf{Change} & \textbf{Reason} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Front matter & Version 2 title, reading guide, scope and method extended to Chapter~3 & New version with three chapters \\
+Section~\ref{sec:elicitation} & New: elicitation techniques and assumptions A1--A4 & V1 did not show how requirements were obtained \\
+Section~\ref{subsec:kpis} & New: indicators K1--K8 & Make problems and objectives measurable \\
+Table~\ref{tab:powerinterest} & New: power/interest grid and engagement & Prioritise stakeholder involvement \\
+Section~\ref{sec:activities}, Table~\ref{tab:infocatalogue} & Reviews as evidence for the assistant; review information row & Needed by Chapter~3 \\
+Section~\ref{subsec:entities} & New: preliminary data entities & Fix the level of detail; prepare Chapter~4 \\
+Section~\ref{subsec:aiopp} & New: AI opportunities per problem & Link Chapter~1 to Chapter~3 \\
+Section~\ref{sec:proposal} & Scope and boundary include the assistant and the model runtime; new objective O8; SMART targets (Table~\ref{tab:smart}) & Objectives were not measurable \\
+Table~\ref{tab:needs} & New needs SN16, SN17 and a fifth theme & Result of the AI analysis \\
+Section~\ref{sec:fr} & New category and FR39--FR45 & Requirements of the AI feature \\
+Section~\ref{sec:nfr} & New NFR13--NFR16 and their rationale & Quality of AI answers \\
+Section~\ref{sec:moscow} & Updated counts (34 Must, 22 Should, 5 Could) & New requirements \\
+Section~\ref{sec:ucmodel} & UC32--UC34 with include/extend relationships & Use cases of the AI feature \\
+Section~\ref{subsec:uc32} & New full specification of UC32 & Key new use case \\
+Sections~\ref{sec:trace}, \ref{sec:validation} & New traceability and coverage rows; two more revised requirement statements; AI use cases in the consistency review & Keep the model complete and testable \\
+Chapter~\ref{ch:ai} & New chapter in three parts: AI in e-commerce today with examples and evidence (Section~\ref{sec:aitoday}); intelligent search with requirements, use cases, three-layer architecture, voice-search sequence, model choice and evaluation (Section~\ref{sec:search}); the product-insight chatbot with model choice and quality evaluation (Section~\ref{sec:chatbot}) & Version-2 scope \\
+Appendix B (V1) & Removed; its content is now part of Chapter~\ref{ch:ai} & Avoid duplication \\
+Appendix~\ref{app:run} & New: how to run the delivered source code & Reproducibility \\
+\end{xltabular}
+}
+\end{updated}
+
+\subsection*{Changes from Version 2 to the Final Version}
+{\small
+\begin{xltabular}{\textwidth}{@{}L{3.2cm} Y L{3.6cm}@{}}
+\caption{Changes from Version 2 to the final version}\label{tab:v3changes}\\
+\toprule
+\textbf{Where} & \textbf{Change} & \textbf{Reason} \\ \midrule
+\endfirsthead
+\toprule
+\textbf{Where} & \textbf{Change} & \textbf{Reason} \\ \midrule
+\endhead
+\bottomrule
+\endlastfoot
+Front matter & Title page without version number, reading guide and scope; Version-2 changes printed in black & Complete essay with five chapters \\
+Section~\ref{subsec:entities} & Cross-reference to the data model of Chapter~\ref{ch:design} & Completed reference \\
+Section~\ref{sec:ucspec} & Specifications UC01, UC05, UC08, UC17 and UC18 reviewed and aligned with the implemented system (atomic steps, new alternative flows and exceptions, password rule, payment and restock flows); all activity diagrams redrawn in Visual Paradigm, one per specification including UC32; swimlane diagrams removed & Consistency between specification, diagram and implementation \\
+Chapter~\ref{ch:design} & New chapter: analysis class diagram (Section~\ref{sec:analysisclass}), data model and generated database with screens (Section~\ref{sec:datamodel}), design class diagram with view, control and entity classes (Section~\ref{sec:designclass}), layers, classes and relations (Section~\ref{sec:layers}), code generated from the layered design (Section~\ref{sec:code}) & Version-3 scope \\
+Chapter~\ref{ch:implementation} & New chapter: implementation of every layer, business flows, integrity and concurrency, user interfaces, external services, security, tests and screenshots of all screens (Section~\ref{sec:impl-screens}) & Version-3 scope \\
+Conclusion, References & Final conclusion; two references on enterprise application patterns and PostgreSQL & Support Chapters~\ref{ch:design} and~\ref{ch:implementation} \\
+Appendix~\ref{app:run} & Instructions for the earlier information-system archive removed; running the system is now Section~\ref{sec:impl-run} & Avoid duplication with Chapter~\ref{ch:implementation} \\
+\end{xltabular}
+}
+
+\section{Running the AI Assistant of Chapter~\ref{ch:ai}}
+\label{app:run}
+How to run the information system itself is described in Section~\ref{sec:impl-run}.
+
+\begin{updated}
+\textbf{AI assistant of Chapter~\ref{ch:ai}.} The archive \texttt{abc-fashion-review-assistant.zip} contains the implementation analysed in Chapter~\ref{ch:ai}. With Python~3.11 or newer:
+\begin{lstlisting}[language=bash]
+python -m pip install -r requirements.txt
+python -m pytest -q                              # 74 tests
+python bench/eval_review_analysis.py             # analyser vs. labels
+python bench/run_bench.py                        # 240-turn benchmark + ablation
+python -m uvicorn app.api:create_app --factory --port 8000   # demo: http://localhost:8000
+\end{lstlisting}
+By default the demo uses the scripted model (\texttt{ABC\_LLM=fake:honest}) and the synthetic demo reviews. To use a real local model, install Ollama, run \texttt{ollama pull qwen3:4b-instruct} and start the server with \texttt{ABC\_LLM=openai}. \texttt{ABC\_LLM=off} runs the basic mode without any model; \texttt{ABC\_LLM=fake:hallucinate} shows the grounding at work. The README lists all settings.
+\end{updated}
+
+\end{document}
